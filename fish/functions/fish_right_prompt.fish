@@ -1,0 +1,1 @@
+/home/david/.config/fish/functions/theme-pure/fish_right_prompt.fish

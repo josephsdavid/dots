@@ -1,0 +1,194 @@
+" plugins I love and use, ones marked in star are amazing and you should have:
+" I use nix for plugins but i think vim-plug, vundle, and pathogen are nice,
+" dein.vim is apparently nice too
+            "repeat"
+            "auto-pairs" * very useful
+            "Syntastic"
+            "vim-nix"
+            "surround" * MUST HAVE
+            "vim-markdown"
+            "vim-fugitive" * MUST HAVE- for git
+            "vimtex"
+            "vim2hs"
+            "vim-processing"
+            "ctrlp" * a classic i dont use too much
+            "python-mode" * language-server is also great
+            "nvim-r"
+            "vim-slime" * must have for python, send commands to an embedded
+	    "ipython terminal
+            "vim-diminactive"
+            "vim-scala"
+            "vim-pandoc-syntax"
+            "lightline"
+	    "edge"
+
+"use system clipboard
+set clipboard=unnamedplus
+
+" tab width stuff
+autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType r setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType rmd setlocal expandtab shiftwidth=2 softtabstop=2
+
+" Run currently focused python script with F9
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+autocmd FileType python nnoremap <buffer> <F8> :exec '!black' shellescape(@%, 1)<cr>
+
+" relative numbering on the number line for conveneient jumping
+set relativenumber
+set number
+
+" backspace stuff
+set backspace=indent,eol,start
+
+" mouse is for babies
+set mouse=
+
+" vim command line history
+set history=500
+
+" plugins and filetype stuff
+filetype plugin on
+filetype indent on
+syntax enable
+
+" read files that have been changed outside of vim
+set autoread
+
+" use comma as your leader
+let mapleader = ","
+
+" some shortcuts with <,-w> to save and tab commands
+nmap <leader>w :w!<cr>
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+" cant remember what this does
+set so=7
+
+" searching stuff
+set ignorecase
+set smartcase
+set hlsearch
+hi Search cterm=underline,italic,bold ctermfg=250 ctermbg=NONE
+"hi Visual ctermfg=NONE ctermbg=253
+hi Visual ctermfg=250 ctermbg=NONE cterm=italic,bold,underline
+highlight PmenuSel ctermbg=232  ctermfg=250 cterm=italic,bold
+highlight Pmenu ctermbg=0  ctermfg=232
+
+set incsearch
+" magic searches
+set magic
+set completeopt=longest,menuone
+
+" makes vim a little faster when replaying macros
+set lazyredraw
+
+" folding
+set foldcolumn=1
+set encoding=utf8
+
+" undo, backup, swap directories for when I accidentally hit ZZ
+set undodir=~/.vim/.undo//
+set backupdir=~/.vim/.backup//
+set directory=~/.vim/.swp//
+
+" easy searching
+map <space> /
+map <c-space> ?
+
+" jump between buffers with <C-DIRECTION>
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Status bar things
+set laststatus=2
+set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+" go to start of line with zero
+map 0 ^
+
+" CRUCIAL PYTHON FUNCTION, automatically clean up spaces on save
+fun! CleanExtraSpaces()
+	let save_cursor = getpos(".")
+	let old_query = getreg('/')
+	silent! %s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfun
+if has("autocmd")
+	autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+endif
+
+" more status bar stuff
+iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+
+" vims built in directory tree! open and close with <,-n-n>
+let g:NetrwIsOpen=0
+function! ToggleNetrw()
+	if g:NetrwIsOpen
+		let i = bufnr("$")
+		while (i >= 1)
+			if (getbufvar(i, "&filetype") == "netrw")
+				silent exe "bwipeout " . i 
+			endif
+			let i-=1
+		endwhile
+		let g:NetrwIsOpen=0
+	else
+		let g:NetrwIsOpen=1
+		silent Lexplore
+	endif
+endfunction
+map <leader>nn :call ToggleNetrw()<cr>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+" for latex
+let g:vimtex_view_method = 'zathura'
+
+" some R stuff
+autocmd VimLeave * if exists("g:SendCmdToR") && string(g:SendCmdToR) != "function('SendCmdToR_fake')" | call RQuit("nosave") | endif
+
+" some markdown stuff, the code folding is annoying
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
+
+" configuration of python plugins: vim-slime and python-mode, this is awesome
+" to work in
+"let g:pymode_lint_on_write = 0
+let g:slime_target = "vimterminal"
+let g:slime_vimterminal_cmd = "ipython"
+let g:slime_python_ipython = 1
+
+" stuff for R and Rmarkdown
+augroup pandoc_syntax
+	au! BufNewFile,BufFilePre,BufRead *.[R]md set filetype=markdown.pandoc
+augroup END
+let R_assign = 3
+
+" theming
+""let g:github_colors_soft = 1
+"set termguicolors
+"" let hour = strftime("%H")
+"" if 6 <= hour && hour < 18
+""   set background=light
+"" else
+""   set background=dark
+"" endif
+"set background=dark
+"colorscheme edge
+" lightline is great
+"let g:lightline = {'colorscheme': 'edge'}

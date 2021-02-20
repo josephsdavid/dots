@@ -1,0 +1,13 @@
+{
+  "L2hvbWUvZGF2aWQvYXN0cm8=": [
+    ":C",
+    "py",
+    "pyright.o",
+    "pyright.createtypestub numpy"
+  ],
+  "L2hvbWUvZGF2aWQvZ3JhZC9iZWFycw==": [
+    "pu",
+    "python.linting.pep8Enabled",
+    "cc"
+  ]
+}

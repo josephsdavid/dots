@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+function get_volume {
+  amixer get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
+}
+
+function is_mute {
+  amixer get Master | grep '%' | grep -oE '[^ ]+$' | grep off 
+}
+
+
+function send_notification {
+
+#  iconSound="🔊 "
+#  iconMuted="🔇 "
+    if is_mute ; then
+      status="%{c}MUTED"
+    else
+    volume=$(get_volume)
+    # Make the bar with the special character ─ (it's not dash -)
+    # https://en.wikipedia.org/wiki/Box-drawing_character
+    #bar=$(seq --separator="▣	" 0 "$((volume / 5))" | sed 's/[0-9]//g')
+    bar=$(seq --separator="─" 0 "$((volume / 5))" | sed 's/[0-9]//g')
+    # Send the notification
+       status=" %{c}$bar"
+fi
+/home/david/scripts/popup "$status"
+}
+
+
+case $1 in
+  up)
+    # set the volume on (if it was muted)
+    # up the volume (+ 1%)
+    amixer  set Master on 
+    amixer set Master -q 1%+
+
+    send_notification
+    ;;
+  down)
+    amixer set Master on
+    amixer set Master -q 1%-
+
+    send_notification
+    ;;
+  mute)
+    # toggle mute
+    amixer set Master -q toggle 
+    send_notification
+    ;;
+esac
