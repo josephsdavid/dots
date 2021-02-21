@@ -2,60 +2,38 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib,... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+      ./hardware-configuration.nix
+    ];
 
-# Use the GRUB 2 boot loader.
-boot.loader.grub.enable = true;
-boot.loader.grub.version = 2;
-# boot.loader.grub.efiSupport = true;
-# boot.loader.grub.efiInstallAsRemovable = true;
-# boot.loader.efi.efiSysMountPoint = "/boot/efi";
-# Define on which hard drive you want to install Grub.
-boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
+# discord hack
+  systemd = {globalEnvironment = {RADV_PERFTEST = "aco";};};
 
-boot.kernelModules = [ 
-  "coretemp"
-  "kvm-intel"
-  "modprobe"
-];
-boot.kernelPackages = pkgs.linuxPackages_latest;
-
-networking.hostName = "dtop"; # Define your hostname.
-networking.networkmanager.enable = true;
-
-nix = {
-  buildCores = 0;
-  maxJobs = 6;
-  gc = {
-    automatic = true;
-    dates = "07:15";
-    options = "--delete-older-than 3d";
-  };
+hardware.enableRedistributableFirmware = true;
+hardware.enableAllFirmware=true;
+hardware.opengl = {
+enable = lib.mkDefault true;
+driSupport32Bit = config.hardware.opengl.enable;
 };
+  
 
-# Configure network proxy if necessary
-# networking.proxy.default = "http://user:password@proxy:port/";
-# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.hostName = "computer"; # Define your hostname.
+  networking.networkmanager.enable = true;  # Enables wireless support via wpa_supplicant.
 
-# Select internationalisation properties.
-# i18n = {
-#   consoleFont = "Lat2-Terminus16";
-#   consoleKeyMap = "us";
-#   defaultLocale = "en_US.UTF-8";
-# };
-
-# Set your time zone.
+  # Set your time zone.
 time.timeZone = "America/Chicago";
 environment.variables = {
-  EDITOR = "vim";
-  VISUAL = "vim";
+  EDITOR = "nvim";
+  VISUAL = "nvim";
 };
 
 
@@ -66,117 +44,148 @@ fonts.fonts = with pkgs; [
   cabin
   noto-fonts-cjk
   noto-fonts-emoji
+  tamsyn
   liberation_ttf
   fira-code
   fira-code-symbols
   dejavu_fonts
-  tamsyn
-  noto-fonts
-  lemon
 ];
-environment.systemPackages = with pkgs; [
-  openconnect
-  mysql-workbench
-  blueman
-  bluez
-  bluez-alsa
-  bluez-tools
-  superTuxKart
-  direnv
-  maim
-  scrot
-  cachix
-  light
-  firefox
-  dzen2
-  qutebrowser
+  # time.timeZone = "Europe/Amsterdam";
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
+  networking.interfaces.enp2s0f0.useDHCP = true;
+  networking.interfaces.enp5s0.useDHCP = true;
+  networking.interfaces.wlp3s0.useDHCP = true;
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Select internationalisation properties.
+  # i18n.defaultLocale = "en_US.UTF-8";
+  # console = {
+  #   font = "Lat2-Terminus16";
+  #   keyMap = "us";
+  # };
+
+  
+
+  # Configure keymap in X11
+  # services.xserver.layout = "us";
+  # services.xserver.xkbOptions = "eurosign:e";
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable sound.
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # users.users.jane = {
+  #   isNormalUser = true;
+  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  # };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+   environment.systemPackages = with pkgs; [
+     wget vim git refind
+     blueman
+     bluez
+     bluez-alsa
+     bluez-tools
+     superTuxKart
+     direnv
+     maim
+     scrot
+     cachix
+     light
+ncdu
+ytop
+     firefox
+neovim
+      xclip
+      evince
+      bitwarden
+      google-chrome
+      unzip
+      zoom-us
+      timewarrior
+      dmenu
+      bc
+      libnotify
+      ffmpeg
+      playerctl
+      lemonbar-xft
+      slack
+      xclip
+      calcurse
+      qutebrowser
+      xsv
+      obs-studio
+      htop
+      shellcheck
+      slop
+      tree
+      xsel
+      networkmanager_dmenu
+      libreoffice-fresh
+      zotero
+
+      pinta
   spotify
   wget 
   nixos-icons
   killall
   termite
-  ranger 
-  vim
-  gcc
-  pandoc
-  neofetch 
-  git 
-  herbstluftwm 
-  compton 
-  dzen2 
-  feh 
-  arandr
-  acpi
-  tmux
-  imagemagick
   lm_sensors
   cacert
   mpv
-  gthumb
-#(let src = builtins.fetchGit "https://github.com/target/lorri"; in import src { inherit src pkgs; })
-                        ];
+  feh 
+  arandr
+  acpi
+  neofetch 
+  neovim
+  ranger 
+   ];
 
-# List packages installed in system profile. To search, run:
-# $ nix search wget
-# environment.systemPackages = with pkgs; [
-#   wget vim
-# ];
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
-# Some programs need SUID wrappers, can be configured further or are
-# started in user sessions.
-# programs.mtr.enable = true;
-# programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+  # List services that you want to enable:
 
-# List services that you want to enable:
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
 
-# Enable the OpenSSH daemon.
-# services.openssh.enable = true;
+  # Open ports in the firewall.
 
-# Open ports in the firewall.
 networking.firewall.allowedTCPPorts = [ 8008 8009 ];
 networking.firewall.allowedUDPPortRanges = [ {from=32768; to=61000; } ];
-# Or disable the firewall altogether.
-# networking.firewall.enable = false;
 
-# Enable CUPS to print documents.
-# services.printing.enable = true;
 
-# Enable sound.
-# sound.enable = true;
-# hardware.pulseaudio.enable = true;
-
-# Enable the X11 windowing system.
-# services.xserver.enable = true;
-# services.xserver.layout = "us";
-# services.xserver.xkbOptions = "eurosign:e";
-
-# Enable touchpad support.
-# services.xserver.libinput.enable = true;
-
-# Enable the KDE Desktop Environment.
-# services.xserver.displayManager.sddm.enable = true;
-# services.xserver.desktopManager.plasma5.enable = true;
-
-# Define a user account. Don't forget to set a password with ‘passwd’.
-# users.users.guest = {
-#   isNormalUser = true;
-#   uid = 1000;
-# };
-#
 nixpkgs.config = {
   allowUnfree = true;
   oraclejdk.accept_license = true;
 };
 
-# Some programs need SUID wrappers, can be configured further or are
-# started in user sessions.
-# programs.mtr.enable = true;
-# programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+
 programs.dconf.enable = true;
 programs.light.enable=true;
 # List services that you want to enable:
 powerManagement.cpuFreqGovernor = "powersave";
-
+programs.vim.defaultEditor=true;
 sound.enable = true;
 hardware.pulseaudio ={
   enable = true;
@@ -191,13 +200,12 @@ hardware.bluetooth = {
   enable = true;
   package = pkgs.bluezFull;
 };
-hardware.cpu.intel.updateMicrocode = true;
+
 
 programs.bash = {
   enableCompletion = true;
 };
-programs.fish.enable=true;
-programs.vim.defaultEditor = true;
+programs.fish.enable = true;
 users.users.david = {
   isNormalUser=true;
   home = "/home/david";
@@ -207,7 +215,6 @@ users.users.david = {
 };
 
 
-networking.dhcpcd.enable = true;
 services = {
   gnome3.gnome-keyring.enable = true;
   teamviewer.enable = true;
@@ -241,17 +248,14 @@ upower = {
 
 xserver = {
   enable = true;
+
   windowManager = {
     herbstluftwm.enable = true;
-    fvwm = {
-      enable = true;
-      gestures = true;
-    };
   };
   desktopManager = {
     xfce.enable=true;
   };
-  videoDrivers = [ "intel" ];
+  #videoDrivers = [ "????" ];
   libinput = {
     enable = true;
     naturalScrolling = false;
@@ -264,10 +268,21 @@ compton = {
   shadow = false;
 };
   };
-# This value determines the NixOS release with which your system is to be
-# compatible, in order to avoid breaking some software such as database
-# servers. You should change this only after NixOS release notes say you
-# should.
-system.stateVersion = "20.03"; # Did you read the comment?
+
+hardware.cpu.amd.updateMicrocode=true;
+
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
+
