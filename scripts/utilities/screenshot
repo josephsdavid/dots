@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+clipboard=0
+
+sample () {
+	shuf < "$1" | head -n 1
+}
+
+adj=$(sample "$HOME/scripts/files/adjectives.txt")
+noun=$(sample "$HOME/scripts/files/animals.txt")
+filepath=/home/david/Pictures/screenshots/$adj$noun.png
+
+action=$(printf "Fullscreen\nSlop\nVideo\n<<<" | rofi -dmenu -i -p "Select a screenshot type")
+
+if [ "$action" != "Video" ] AND [ "$action" != "<<<" ]; then
+	save=$(printf "File\nClipboard" |  rofi -dmenu  -i -p "Select a saving method")
+fi
+
+
+
+case "$save" in
+	File)
+		clipboard=0
+		;;
+	Clipboard)
+		clipboard=1
+		;;
+esac
+
+
+case "$action" in
+	Fullscreen)
+		scrot "$filepath"
+		;;
+	Slop)
+		maim -s "$filepath"
+
+		;;
+	Video)
+		"$HOME/scripts/utilities/recorder"
+		;;
+	"<<<")
+		"$HOME/scripts/menus/system-menu.sh"
+		exit
+		;;
+esac
+
+
+
+if [ "$clipboard" -eq 1 ]; then
+	xclip -selection clipboard -t image/png -i "$filepath"
+	rm "$filepath"
+fi

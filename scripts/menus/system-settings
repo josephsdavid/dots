@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+action=$(printf "System config file\nUser config file\nWindow management\nVim configuration\nOther\n<<<" | rofi -dmenu -i -p "System settings:")
+
+case "$action" in
+	"System config file")
+		"${TERMINAL:-termite}" -e "sudoedit /etc/nixos/configuration.nix"
+		;;
+	"User config file")
+		"${TERMINAL:-termite}" -e "home-manager edit"
+		;;
+	"Window management")
+		"${TERMINAL:-termite}" -e "ranger $HOME/.config/herbstluftwm/"
+		;;
+	"Vim configuration")
+		"${TERMINAL:-termite}" -e "ranger $HOME/.config/nvim/"
+		;;
+	"Other")
+		"${TERMINAL:-termite}" -e "ranger $HOME/.config/"
+		;;
+	"<<<")
+		"$HOME/scripts/menus/system-menu.sh"
+		;;
+
+esac
+

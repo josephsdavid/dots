@@ -1,0 +1,109 @@
+[options]
+allow_bold = true
+#audible_bell = false
+#bold_is_bright = true
+clickable_url = true
+#dynamic_title = true
+font = Iosevka Term Medium 12
+#font =  9
+#fullscreen = true
+#icon_name = terminal
+#mouse_autohide = false
+#scroll_on_output = false
+#scroll_on_keystroke = true
+# Length of the scrollback buffer, 0 disabled the scrollback buffer
+# and setting it to a negative value means "infinite scrollback"
+scrollback_lines = 10000
+#search_wrap = true
+#urgent_on_bell = true
+#hyperlinks = false
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+#browser = xdg-open
+
+# "system", "on" or "off"
+cursor_blink = system
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# Hide links that are no longer valid in url select overlay mode
+#filter_unmatched_urls = true
+
+# Emit escape sequences for extra modified keys
+#modify_other_keys = false
+
+# set size hints for the window
+#size_hints = false
+
+# "off", "left" or "right"
+#scrollbar = off
+
+[colors]
+# If both of these are unset, cursor falls back to the foreground color,
+# and cursor_foreground falls back to the background color.
+#cursor = #202421
+#cursor_foreground = #d5d3c7
+
+# The foreground for selections
+cursor_foreground =  #2f2f2f
+
+# The background for selections
+cursor = #93a1a1
+#foreground = #dcdccc
+foreground   =    #202421
+#foreground_bold = #ffffff
+background = #fffffa
+
+# 20% background transparency (requires a compositor)
+#background = rgba(63, 63, 63, 0.8)
+
+# If unset, will reverse foreground and background
+#highlight = #2f2f2f
+
+# Colors from color0 to color254 can be set
+
+# black
+color0 =  #eeeeee
+color8 =  #bcbcbc
+
+# red
+color1 =  #af0000
+color9 =  #d70000
+
+# green
+color2 =  #008700
+color10=  #d70087
+
+# yellow
+color3 =  #5f8700
+color11=  #8700af
+
+# blue
+color4 =  #0087af
+color12=  #d75f00
+
+# magent
+color5 =  #878787
+color13=  #d7f500
+
+# cyan
+color6 =  #005f87
+color14=  #005faf
+
+# white
+color7 =  #444444
+color15=  #008700
+
+[hints]
+#font = Monospace 12
+#foreground = #dcdccc
+#background = #3f3f3f
+#active_foreground = #e68080
+#active_background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 0.5
+#roundness = 2.0
+
+# vim: ft=dosini cms=#%s
