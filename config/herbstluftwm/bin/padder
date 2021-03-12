@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+hc() {
+    #echo "hc $@" >&2 ;
+    herbstclient "$@" ;
+}
+
+pad() {
+	size=$2 
+	if [ $1 ]; then
+		hc pad 0 0 0 36 0
+		hc unsetenv padded
+	else
+		hc pad 0 $size $size $((size+36)) $size
+		hc setenv padded pppp
+	fi
+}
+
+
+if [ $(hc list_monitors | wc -l) -gt 1 ]; then
+	npad=120
+else
+	npad=30
+fi
+
+
+hc lock
+pad "$(hc getenv padded)" $npad
+hc unlock

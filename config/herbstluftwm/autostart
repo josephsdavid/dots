@@ -29,7 +29,7 @@ $configdir/keybinds
 
 #theming
 #$themedir/moontheme
-$themedir/cyantime
+$themedir/maintheme
 #$themedir/papertheme
 #$themedir/snowtheme
 #$themedir/snowtheme
@@ -43,31 +43,40 @@ hc rule focus=on # normally focus new clients
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-# rules
+hc rule class='GLava' manage=off
+hc rule class='zoom' floating=on
 
-hc unlock
-hc set default_frame_layout 1
 hc detect_monitors
-
+hc set default_frame_layout 1
 # panel
 # find the panel
 nmon=$(herbstclient list_monitors | wc -l)
-#if [ "$nmon" = "1" ]; then
-#	 panel=$paneldir/lemonpanel
-	panel=$paneldir/dzenpanel
-#else
-#	panel=$paneldir/dzenpanel
-#fi
+panel=$paneldir/dzenpanel
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-#    monitor=0
     "$panel" "$monitor" &
 done
 
-
-if [ "$nmon" = "2" ]; then
-	bash ~/.screenlayout/2monhome.sh
+if hc silent new_attr bool my_not_first_autostart ; then
+	hc setenv theme light
+	feh --bg-fill ~/Pictures/hank.jpg
+	cp "$HOME/.config/termite/dayconf" "$HOME/.config/termite/config"
+	# startup apps
+	# run fancy glava thing
+	if [ "$nmon" -gt 1  ]; then
+		bash ~/.screenlayout/2_monitor.sh
+		hc reload
+		glava &
+	fi
 fi
+
+hc unlock
+
+# rules
+hc unlock
+
+
+#hc reload
+
 #xset s off -dpms
 

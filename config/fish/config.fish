@@ -50,5 +50,6 @@ eval (direnv hook fish)
 # THEME PURE #
 set fish_function_path /home/david/.config/fish/functions/theme-pure/functions/ $fish_function_path
 source /home/david/.config/fish/functions/theme-pure/conf.d/pure.fish
+set -U SXHKD_SHELL /usr/bin/bash
 
 set HISTSIZE 100000

@@ -21,3 +21,4 @@ text/x-tex=mynvim.desktop
 application/x-shellscript=mynvim.desktop
 text/x-c=mynvim.desktop
 text/x-c++=mynvim.desktop
+text/html=firefox.desktop

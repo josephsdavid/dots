@@ -1,33 +1,58 @@
 #!/usr/bin/env bash
-
 quote() {
 	local q="$(printf '%q ' "$@")"
 	printf '%s' "${q% }"
 }
 
-getbat() {
-	res=
-}
 
 hc_quoted="$(quote "${herbstclient_command[@]:-herbstclient}")"
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+
+font="-*-tamsyn-bold-*-*-*-17-*-*-*-*-*-*-*"
+glyph_font='-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1'
+bgcolor='#292c2b'
+selbg='#0087af'
+selfg='#EFEFEF'
+gray_col='#909090'
+emptybg='#d70000'
+fg_col='#efefef'
+get_temp(){
+	temps="$(sensors | grep °C|grep "temp1\|Composite" | tr "\t" " " | tr "+" " " | tr "°C" " " | awk '{print $2}')"
+	divisor="$(echo "$temps" | wc -l)"
+	sum="$(echo "$temps" | paste -sd+ - | bc)"
+
+	echo "$sum / $divisor" | bc
+}
+get_bat() {
+	acpi -b | awk '{print $3 $4}' | sed 's/,/ /g' 
+}
+
+get_ram() {
+	free -b | grep Mem | awk '{ printf("%.0f\n",  ($3 * 100 / $2)) }';
+}
+
+get_swap() {
+	free -b | grep Swap | awk '{ printf("%.0f\n",  ($3 * 100 / $2)) }';
+}
+get_cpu() {
+	iostat -c | head -n 4 | tail -n 1 | awk '{print 100-$6}'
+}
+
 monitor=${1:-0}
 geometry=( $(hc monitor_rect "$monitor") )
 if [ -z "$geometry" ] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
-# geometry has the format W H X Y
-x=${geometry[0]}
-y=${geometry[1]}
-panel_width=${geometry[2]}
-panel_height=32
+# geometry has the format W H X r
+pad_x=0
+pad_y=0
+x=$((geometry[0]+pad_x/2))
+panel_height=36
+y=${geometry[3]}
+y=$((y-panel_height+geometry[1]-pad_y))
+panel_width=$((geometry[2] - pad_x))
 
-font="-*-tamsyn-bold-*-*-*-17-*-*-*-*-*-*-*"
-bgcolor='#333333'
-selbg='#0087af'
-selfg='#EAEAEA'
-emptybg='#ae5865'
 #$(hc get frame_border_normal_color)
 
 ####
@@ -65,7 +90,8 @@ else
     }
 fi
 
-hc pad $monitor $panel_height
+pad_height=$((panel_height+pad_y))
+hc pad $monitor 0 0 $pad_height 0
 
 {
     ### Event generator ###
@@ -76,10 +102,14 @@ hc pad $monitor $panel_height
 
     #mpc idleloop player &
     while true ; do
-        # "date" output is checked once a second, but an event is only
-        # generated if the output changed compared to the previous run.
-        date +$'date\t^fg(#efefef)%H:%M^fg(#909090), %Y-%m-^fg(#efefef)%d'
-        sleep 1 || break
+	    date +$'date\t^fg()%H:%M:%S^fg(#909090) %Y-%m-^fg()%d'
+	get_bat
+	theme=$(hc getenv theme)
+	get_ram
+	$(get_temp)
+	get_swap
+	get_cpu
+        sleep 0.5 || break
     done > >(uniq_linebuffered) &
     childpid=$!
     hc --idle
@@ -89,14 +119,19 @@ hc pad $monitor $panel_height
     visible=true
     date=""
     windowtitle=""
-    bat=""
+    battery=""
+    ram=""
+    temp=""
     while true ; do
+
+	# toggle some themes
 
         ### Output ###
         # This part prints dzen data based on the _previous_ data handling run,
         # and then waits for the next event to happen.
 
         separator="^bg()^fg($selbg)|"
+	echo -n "$separator^bg()^fg(#d70000)^ca(1,$menu)<->^ca()$separator"
         # draw tags
         for i in "${tags[@]}" ; do
             case ${i:0:1} in
@@ -128,10 +163,12 @@ hc pad $monitor $panel_height
         echo -n "$separator"
         echo -n "^bg()^fg() ${windowtitle//^/^^}"
         # small adjustments
-	right="$separator^bg() $date $separator^fg() $bat $separator"
+	menu="$HOME/scripts/menus/system-menu.sh"
+	right="$separator^bg()$ram$temp$separator$battery$date$separator "
+
         right_text_only=$(echo -n "$right" | sed 's.\^[^(]*([^)]*)..g')
         # get width of right aligned text.. and add some space..
-        width=$($textwidth "$font" "$right_text_only    ")
+        width=$($textwidth "$font" "$right_text_only        ")
         echo -n "^pa($(($panel_width - $width)))$right"
         echo
 
@@ -155,7 +192,65 @@ hc pad $monitor $panel_height
             date)
                 #echo "resetting date" >&2
                 date="${cmd[@]:1}"
-		bat="$(acpi -b | awk '{print $3  $4}' | sed 's/,/ /g')"
+		bat="$(get_bat)"
+		bat_stat="$(echo $bat | awk '{print $1}')"
+		if [ "$(echo $bat | awk '{print $1}')" != "Discharging" ]; then
+			bat_ico='^i(/home/david/Pictures/icons/ac.xbm)'
+		else
+			bat_ico='^i(/home/david/Pictures/icons/bat.xbm)'
+		fi
+		bat_num=$(echo "$bat" | awk '{print $2}')
+		if [ "$(echo "$bat_num < 25"  | bc)" -eq 1 ]; then
+			batfg="#d70000"
+			if [ "$bat_stat" != "Charging" ]; then
+				bat_ico='^i(/home/david/Pictures/icons/bat_empty.xbm)'
+			fi
+		elif [ "$(echo "25 <= $bat_num && $bat_num < 75" | bc)"  -eq 1 ]; then 
+			batfg='#d75f00'
+			if [ "$bat_stat" != "Charging" ]; then
+				bat_ico='^i(/home/david/Pictures/icons/bat.xbm)'
+			fi
+		else
+			batfg='#008700'
+			if [ "$bat_stat" != "Charging" ]; then
+				bat_ico='^i(/home/david/Pictures/icons/bat_full.xbm)'
+			fi
+		fi
+		ram_num="$(get_ram)"
+		if [ "$(echo "$ram_num < 25"  | bc)" -eq 1 ]; then
+			ram_fg='#008700'
+		elif [ "$(echo "25 <= $ram_num && $ram_num < 75" | bc)"  -eq 1 ]; then 
+			ram_fg='#d75f00'
+		else
+			ram_fg="#d70000"
+		fi
+		swap_num="$(get_swap)"
+		if [ "$(echo "$swap_num < 25"  | bc)" -eq 1 ]; then
+			swap_fg='#008700'
+		elif [ "$(echo "25 <= $swap_num && $swap_num < 75" | bc)"  -eq 1 ]; then 
+			swap_fg='#d75f00'
+		else
+			swap_fg="#d70000"
+		fi
+		cpu_num="$(get_cpu)"
+		if [ "$(echo "$cpu_num < 25"  | bc)" -eq 1 ]; then
+			cpu_fg='#008700'
+		elif [ "$(echo "25 <= $cpu_num && $cpu_num < 75" | bc)"  -eq 1 ]; then 
+			cpu_fg='#d75f00'
+		else
+			cpu_fg="#d70000"
+		fi
+		temp_num="$(get_temp)"
+		if [ "$(echo "$temp_num < 70"  | bc)" -eq 1 ]; then
+			temp_fg='#008700'
+		elif [ "$(echo "70 <= $temp_num && $temp_num < 90" | bc)"  -eq 1 ]; then 
+			temp_fg='#d75f00'
+		else
+			temp_fg="#d70000"
+		fi
+		battery="^fg($batfg)$bat_ico:^fg($gray_col)$bat_num$separator"
+		ram="^fg($ram_fg)^i(/home/david/Pictures/icons/mem.xbm):^fg($gray_col)$ram_num%^fg($cpu_fg) ^i(/home/david/Pictures/icons/cpu.xbm):^fg($gray_col)$cpu_num%"
+		temp="^fg($temp_fg) ^i(/home/david/Pictures/icons/temp.xbm):^fg($gray_col)"$temp_num"C"
                 ;;
             quit_panel)
                 exit
@@ -191,7 +286,9 @@ hc pad $monitor $panel_height
     ### dzen2 ###
     # After the data is gathered and processed, the output of the previous block
     # gets piped to dzen2.
+    hc unlock
+    
 
 } 2> /dev/null | dzen2 -w $panel_width -x $x -y $y -fn "$font" -h $panel_height \
-    -e "button3=;button4=exec:$hc_quoted use_index -1;button5=exec:$hc_quoted use_index +1" \
-    -ta l -bg "$bgcolor" -fg '#efefef'
+    -e "button3=exec;button4=exec:$hc_quoted use_index -1;button5=exec:$hc_quoted use_index +1" \
+    -ta l -bg "$bgcolor" -fg "$fg_col"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nDisplay power saver" | rofi -dmenu -i -p "System Actions:")
+action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nMonitor configuration\nDisplay power saver\nAudio settings\nBluetooth settings" | rofi -dmenu -i -p "System Actions:")
 
 
 
@@ -18,6 +18,9 @@ case "$action" in
 			dunstctl set-paused false
 			notify-send "Notifications enabled"
 		fi
+		;;
+	"Monitor configuration")
+		"$HOME/scripts/menus/display_settings.sh"
 		;;
 	"Take a screenshot")
 		"$HOME/scripts/utilities/screenshot"
@@ -46,6 +49,12 @@ case "$action" in
 				"$HOME/scripts/menus/system-menu.sh"
 				;;
 		esac
+		;;
+	"Bluetooth settings")
+		herbstclient spawn blueberry
+		;;
+	"Audio settings")
+		herbstclient spawn termite -e pulsemixer
 		;;
 
 esac

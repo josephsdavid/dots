@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+
+notify-send  "$(curl wttr.in | head -n 7 | ansifilter)"

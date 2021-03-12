@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+output=$(printf "2:00\n5:00\n15:00\n30:00\n45:00\n1:00:00" | rofi -dmenu -i -p "Set a timer")
+
+et "$output" 

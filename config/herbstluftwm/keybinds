@@ -59,6 +59,7 @@ hc keybind $Mod-Shift-c close_or_remove
 # Birth
 
 hc keybind $Mod-d spawn rofi -show drun
+hc keybind $Mod-Shift-w spawn "$HOME/scripts/utilities/weather"
 hc keybind $Mod-Shift-Return spawn rofi  -show Files -modi Files:/home/david/scripts/utilities/rofi-file-browser
 
 hc keybind $Mod-Return spawn ${TERMINAL:-termite} # use your $TERMINAL with xterm as fallback
@@ -83,7 +84,7 @@ hc keybind XF86MonBrightnessDown spawn "$HOME/scripts/utilities/bright" down
 hc keybind $Mod-Alt-Down spawn playerctl play-pause 
 hc keybind XF86AudioPlay spawn playerctl play-pause
 hc keybind $Mod-Alt-Left spawn playerctl previous
-hc keybind XF86AudioPrev spawn playerctl next
+hc keybind XF86AudioPrev spawn playerctl previous
 hc keybind $Mod-Alt-Right spawn playerctl next
 hc keybind XF86AudioNext spawn playerctl next
 #hc keybind $Mod-Alt-Left spawn dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
@@ -103,6 +104,7 @@ hc keybind $Mod-Up    focus up
 hc keybind $Mod-Right focus right
 hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
+hc keybind $Mod-k     focus up
 hc keybind $Mod-l focus right
 
 #Shifting
@@ -180,7 +182,8 @@ hc mousebind $Mod-Button3 resize
 hc set focus_follows_mouse 1
 
 # multimonitor
-hc keybind $Mod-Control-2 spawn "$HOME/bin/2monhome.sh"
+hc keybind $Mod-Control-2 chain . spawn "/home/david/.screenlayout/2_monitor.sh" . reload
+hc keybind $Mod-Control-1 chain . spawn "/home/david/.screenlayout/hdmi_only.sh" . reload
 hc keybind $Mod-Control-0 chain . spawn xrandr --auto . reload
 
 # stupid little scripts
@@ -189,4 +192,8 @@ hc keybind $Mod-Shift-n spawn networkmanager_dmenu
 
 hc keybind F1 spawn rofi -show drun
 hc keybind $Mod-F1 spawn rofi -show drun
-hc keybind $Mod-a spawn xfce4-appfinder
+hc keybind $Mod-a spawn "$HOME/scripts/utilities/day-night.sh"
+
+
+# ricing
+hc keybind $Mod-g spawn "$bindir/padder"

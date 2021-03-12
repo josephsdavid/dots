@@ -32,13 +32,13 @@ case $1 in
     # set the volume on (if it was muted)
     # up the volume (+ 1%)
     amixer  set Master on 
-    amixer set Master -q 1%+
+    amixer set Master -q 5%+
 
     send_notification
     ;;
   down)
     amixer set Master on
-    amixer set Master -q 1%-
+    amixer set Master -q 5%-
 
     send_notification
     ;;

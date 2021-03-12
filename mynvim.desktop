@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=MyVim
+Name=Neovim
 Exec=termite -e "nvim %F"
 Terminal=false
 Icon=gvim

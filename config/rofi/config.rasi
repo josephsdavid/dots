@@ -9,6 +9,7 @@ modi: "window,drun,ssh,combi";
 
 * {
 	background-color:            #333333;
+	font: "Iosevka-Nerd-Font 13";
 	text-color:                  #d3d7cf;
 	selbg:                       #215d9c;
 	actbg:                       #af0000;
@@ -39,10 +40,11 @@ modi: "window,drun,ssh,combi";
 }
 
 window {
-	location:	 east;
-	anchor:		 east;
-	height:		 100%;
+	location:	 south west;
+	anchor:		 south west;
+	height:		 60%;
 	width:		 22%;
+	y-offset:-36;
 	orientation: horizontal;
 	children:	 [mainbox];
 	border: 3;
@@ -76,7 +78,7 @@ inputbar {
 
 listview {
 	spacing: 0.5em;
-	dynamic: false;
+	dynamic: true;
 	cycle:   true;
 }
 
@@ -84,14 +86,16 @@ element { padding: 10px; }
 
 
 prompt {
-	vertical-align: 1;
-	padding:        0px;
+	vertical-align: 0;
+	horizontal-align: 0;
+	padding:        25px;
 }
 
 entry {
 	expand:         false;
 	text-color:     @normal-foreground;
-	vertical-align: 1;
+	vertical-align: 0;
+	horizontal-align: 0;
 	padding:        5px;
 }
 

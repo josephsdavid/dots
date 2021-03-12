@@ -4,7 +4,7 @@ allow_bold = true
 #bold_is_bright = true
 clickable_url = true
 #dynamic_title = true
-font = Iosevka Term Medium 12
+font = Iosevka Term Medium 14
 #font =  9
 #fullscreen = true
 #icon_name = terminal
@@ -51,9 +51,9 @@ cursor_foreground =  #2f2f2f
 # The background for selections
 cursor = #93a1a1
 #foreground = #dcdccc
-foreground   =    #202421
+foreground   =    #fffffa
 #foreground_bold = #ffffff
-background = #fffffa
+background = rgba(32, 36, 33, 0.95)
 
 # 20% background transparency (requires a compositor)
 #background = rgba(63, 63, 63, 0.8)
@@ -64,36 +64,54 @@ background = #fffffa
 # Colors from color0 to color254 can be set
 
 # black
-color0 =  #eeeeee
-color8 =  #bcbcbc
+color0 =  #444444
+color8 =  #585858
 
 # red
 color1 =  #af0000
 color9 =  #d70000
 
 # green
-color2 =  #008700
-color10=  #d70087
+color2 =  #5faf00
+color10 =  #afd700
 
 # yellow
-color3 =  #5f8700
-color11=  #8700af
+color3 =  #d7af5f
+color11=  #af87d7
 
 # blue
-color4 =  #0087af
-color12=  #d75f00
+color4 =  #5fafd7
+color12 =  #ffaf00
 
 # magent
-color5 =  #878787
-color13=  #d7f500
+color5 =  #808080
+color13 =  #ff5faf
 
 # cyan
-color6 =  #005f87
-color14=  #005faf
+color14 =  #00afaf
+color6=  #d787f5
 
 # white
-color7 =  #444444
-color15=  #008700
+color7 =  #d0d0d0
+color15=  #5f8787
+
+
+color00 = #1c1c1c
+color01 = #af005f
+color02 = #5faf00
+color03 = #d7af5f
+color04 = #5fafd7
+color05 = #808080
+color06 = #d7875f
+color07 = #d0d0d0
+color08 = #585858
+color09 = #5faf5f
+color10 = #afd700
+color11 = #af87d7
+color12 = #ffaf00
+color13 = #ff5faf
+color14 = #00afaf
+color15 = #5f8787
 
 [hints]
 #font = Monospace 12

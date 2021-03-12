@@ -8,9 +8,20 @@
 
   home= {
     packages =with pkgs; [
+      xorg.libXft
+      xorg.libXpm
+      xorg.libXfont
+      sysstat
+      pulsemixer
+      blueberry
+      conky
+      et
+      glava
       dunst
       shfmt
+      flashfocus
       discord
+      netcat-openbsd
       ansifilter
       rofi
       rofi-file-browser
@@ -128,7 +139,7 @@ programs = {
      global = {
        browser = "${config.programs.firefox.package}/bin/firefox -new-tab";
        follow = "keyboard";
-       font = "Iosevka 12";
+       font = "Iosevka-Nerd-Font 13";
        format = "<b>%s</b>\\n%b";
        frame_color = "#555555";
        frame_width = 2;
@@ -145,22 +156,22 @@ programs = {
      };
 
      urgency_low = {
-       background = "#fffffa";
-       foreground = "#000000";
+       background = "#444444dd";
+       foreground = "#d3d7cf";
        frame_color = "#008700";
        timeout = 5;
      };
 
      urgency_normal = {
-       background = "#fffffa";
-       foreground = "#000000";
+       background = "#444444dd";
+       foreground = "#d3d7cf";
        frame_color = "#0087af";
        timeout = 15;
      };
 
      urgency_critical = {
-       background = "#fffffa";
-       foreground = "#000000";
+       background = "#444444dd";
+       foreground = "#d3d7cf";
        frame_color = "#af0000";
        timeout = 0;
      };

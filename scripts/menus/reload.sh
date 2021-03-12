@@ -4,7 +4,7 @@ action=$(printf "configuration.nix\nhome.nix\nWindow manager\n<<<" | rofi -dmenu
 
 case "$action" in
 	"configuration.nix")
-		"${TERMINAL:-termite}" -e "nixos-rebuild switch"
+		"${TERMINAL:-termite}" -e "sudo nixos-rebuild switch"
 		;;
 	"home.nix")
 		"${TERMINAL:-termite}" -e "home-manager switch"
@@ -18,3 +18,6 @@ case "$action" in
 
 esac
 
+if [ "$action" != "<<<" ]; then
+	notify-send "$action was successfully reloaded"
+fi

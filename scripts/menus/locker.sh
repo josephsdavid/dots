@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+
 output=$(printf "logout\nlock\nhibernate\nreboot\nsuspend\nshutdown\n<<<" | rofi -dmenu -i -p "Select an action:")
 
 case "$output" in
