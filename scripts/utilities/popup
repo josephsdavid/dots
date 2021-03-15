@@ -12,7 +12,7 @@ let barx=${barx}/2-${barw}/2
 let bary=${bary}/2-${barh}/2
 
 # colors
-bar_bg='#af000000'
+bar_bg='#000000'
 bar_fg='#ffffffff'
 
 # font used

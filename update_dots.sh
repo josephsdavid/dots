@@ -16,3 +16,4 @@ cp -r $cfig/termite/* config/termite
 cp -r $cfig/mimeapps.list config/mimeapps.list
 cp "$HOME/.local/share/applications/mynvim.desktop" mynvim.desktop
 
+cp -r "$HOME/Pictures/icons/" Pictures/icons/

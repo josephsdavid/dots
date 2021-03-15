@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nMonitor configuration\nDisplay power saver\nAudio settings\nBluetooth settings" | rofi -dmenu -i -p "System Actions:")
+action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nMonitor configuration\nDisplay power saver\nAudio settings\nBluetooth settings\nRead a book" | rofi -dmenu -i -p "System Actions:")
 
 
 
@@ -55,6 +55,9 @@ case "$action" in
 		;;
 	"Audio settings")
 		herbstclient spawn termite -e pulsemixer
+		;;
+	"Read a book")
+		"$HOME/scripts/menus/books.sh"
 		;;
 
 esac

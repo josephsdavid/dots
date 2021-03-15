@@ -54,7 +54,7 @@ hc keybind $Mod-Shift-y chain . lock . rotate . unlock
 
 hc keybind $Mod-x close
 hc keybind $Mod-w remove
-hc keybind $Mod-Shift-c close_or_remove
+hc keybind $Mod-Shift-x close_or_remove
 
 # Birth
 
@@ -158,7 +158,8 @@ hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
-hc keybind Mod1-Tab cycle
+hc keybind $Mod-Shift-c cycle -1
+hc keybind Mod1-Shift-Tab cycle
 hc keybind $Mod-i jumpto urgent
 
 #Magic

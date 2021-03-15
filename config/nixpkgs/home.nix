@@ -8,6 +8,7 @@
 
   home= {
     packages =with pkgs; [
+      python37Packages.dbus-python
       xorg.libXft
       xorg.libXpm
       xorg.libXfont

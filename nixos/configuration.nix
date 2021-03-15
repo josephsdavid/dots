@@ -218,6 +218,7 @@
 
       windowManager = {
         herbstluftwm.enable = true;
+        2bwm.enable=true;
         bspwm.enable = true;
       };
       desktopManager = {
