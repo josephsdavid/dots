@@ -24,9 +24,10 @@ autocmd FileType rmd setlocal expandtab shiftwidth=2 softtabstop=2
 
 " Run currently focused python script with F9
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+" format code with f8
 autocmd FileType python nnoremap <buffer> <F8> :exec '!black' shellescape(@%, 1)<cr>
 autocmd FileType sh nnoremap <buffer> <F8> :exec '!shfmt -w' shellescape(@%, 1)<cr>
-
+autocmd FileType nix nnoremap <buffer> <F8> :exec '!nixfmt' shellescape(@%, 1)<cr>
 
 " relative numbering on the number line for conveneient jumping
 "set relativenumber

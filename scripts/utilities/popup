@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # how long should the popup remain?
-duration=0.5
+duration=0.7
 
 # define geometry
 barw=300

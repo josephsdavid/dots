@@ -2,14 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib,... }:
+{ config, pkgs, lib, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
+  imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
 
   boot.loader = {
     efi = {
@@ -17,18 +15,18 @@
       efiSysMountPoint = "/boot";
     };
     grub = {
-      devices = ["nodev"];
+      devices = [ "nodev" ];
       efiSupport = true;
       enable = true;
       extraEntries = ''
-      menuentry "Windows" {
-        insmod part_gpt
-        insmod fat 
-        insmod search_fs_uuid
-        insmod chain
-        search --fs-uuid --set=root "F072-53AC"
-        chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-      }
+        menuentry "Windows" {
+          insmod part_gpt
+          insmod fat 
+          insmod search_fs_uuid
+          insmod chain
+          search --fs-uuid --set=root "F072-53AC"
+          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+        }
       '';
       version = 2;
       theme = pkgs.nixos-grub2-theme;
@@ -38,22 +36,20 @@
 
   systemd = {
 
-    globalEnvironment = {RADV_PERFTEST = "aco";};
+    globalEnvironment = { RADV_PERFTEST = "aco"; };
 
   };
 
-
-
   hardware.enableRedistributableFirmware = true;
-  hardware.enableAllFirmware=true;
+  hardware.enableAllFirmware = true;
   hardware.opengl = {
     enable = lib.mkDefault true;
     driSupport32Bit = config.hardware.opengl.enable;
   };
 
-
   networking.hostName = "computer"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable =
+    true; # Enables wireless support via wpa_supplicant.
 
   time.timeZone = "America/Chicago";
   environment.variables = {
@@ -61,7 +57,6 @@
     VISUAL = "nvim";
     SXHKD_SHELL = "bash";
   };
-
 
   fonts.fonts = with pkgs; [
     iosevka
@@ -80,7 +75,10 @@
     dejavu_fonts
   ];
   environment.systemPackages = with pkgs; [
-    wget vim git
+    cmake
+    wget
+    vim
+    git
     picom
     blueman
     bluez
@@ -126,48 +124,47 @@
     zotero
     pinta
     spotify
-    wget 
+    wget
     nixos-icons
     killall
     termite
     lm_sensors
     cacert
     mpv
-    feh 
+    feh
     arandr
     acpi
-    neofetch 
+    neofetch
     neovim
-    ranger 
+    ranger
     sxhkd
   ];
 
-
   networking.firewall.allowedTCPPorts = [ 8008 8009 ];
-  networking.firewall.allowedUDPPortRanges = [ {from=32768; to=61000; } ];
-
+  networking.firewall.allowedUDPPortRanges = [{
+    from = 32768;
+    to = 61000;
+  }];
 
   nixpkgs.config = {
     allowUnfree = true;
     oraclejdk.accept_license = true;
   };
 
-
   programs.dconf.enable = true;
-  programs.light.enable=true;
+  programs.light.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
-  programs.vim.defaultEditor=true;
+  programs.vim.defaultEditor = true;
   sound.enable = true;
-  hardware.pulseaudio ={
+  hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
-    extraModules = [pkgs.pulseaudio-modules-bt];
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
   };
   hardware.bluetooth = {
     enable = true;
     package = pkgs.bluezFull;
   };
-
 
   nix = {
     buildCores = 0;
@@ -179,18 +176,16 @@
     };
     readOnlyStore = false;
   };
-  programs.bash = {
-    enableCompletion = true;
-  };
+  programs.bash = { enableCompletion = true; };
   programs.fish.enable = true;
   users.users.david = {
-    isNormalUser=true;
+    isNormalUser = true;
     home = "/home/david";
     description = "David Josephs";
-    extraGroups = [ "wheel" "power" "networkmanager" "audio" "docker" "flatpak" "video"];
+    extraGroups =
+      [ "wheel" "power" "networkmanager" "audio" "docker" "flatpak" "video" ];
     shell = "/run/current-system/sw/bin/fish";
   };
-
 
   services = {
     gnome3.gnome-keyring.enable = true;
@@ -201,16 +196,11 @@
       permitRootLogin = "no";
       forwardX11 = true;
     };
-    lorri.enable =true;
+    lorri.enable = true;
 
-    printing = {
-      enable = true;
-    };
+    printing = { enable = true; };
 
-    upower = {
-      enable = true;
-    };
-
+    upower = { enable = true; };
 
     xserver = {
       enable = true;
@@ -218,26 +208,21 @@
 
       windowManager = {
         herbstluftwm.enable = true;
-        2bwm.enable=true;
         bspwm.enable = true;
       };
-      desktopManager = {
-        xfce.enable=true;
-      };
+      desktopManager = { xfce.enable = true; };
       synaptics = {
         enable = true;
-        twoFingerScroll=true;
-        minSpeed="0.5";
+        twoFingerScroll = true;
+        minSpeed = "0.5";
         maxSpeed = "3";
         accelFactor = "0.05";
         additionalOptions = ''
-        Option      "VertScrollDelta"          "-111"
-        Option      "HorizScrollDelta"         "-111"
+          Option      "VertScrollDelta"          "-111"
+          Option      "HorizScrollDelta"         "-111"
         '';
       };
-      libinput = {
-        enable = false;
-      };
+      libinput = { enable = false; };
     };
 
     picom = {
@@ -245,8 +230,8 @@
       fade = false;
       inactiveOpacity = 1.0;
       settings = {
-        blur =
-          { method = "gaussian";
+        blur = {
+          method = "gaussian";
           size = 10;
           deviation = 5.0;
         };
@@ -255,7 +240,7 @@
     };
   };
 
-  hardware.cpu.amd.updateMicrocode=true;
+  hardware.cpu.amd.updateMicrocode = true;
 
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -271,5 +256,4 @@
   system.stateVersion = "20.09"; # Did you read the comment?
 
 }
-
 

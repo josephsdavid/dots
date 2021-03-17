@@ -12,6 +12,8 @@ mkdir -p "$HOME/bin"
 cp -r bin/* "$HOME/bin"
 mkdir -p "$HOME/scripts"
 cp -r scripts/* "$HOME/scripts"
+mkdir -p "$HOME/Pictures"
+cp -r Pictures/* "$HOME/Pictures"
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 cp ./mynvim.desktop "$HOME/.local/share/applications/mynvim.desktop"

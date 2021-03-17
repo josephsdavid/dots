@@ -6,3 +6,5 @@
 echo "Installing system-wide configuration"
 cp nixos/configuration.nix /etc/nixos/configuration.nix
 nixos-rebuild switch
+
+passwd david

@@ -60,6 +60,7 @@ hc keybind $Mod-Shift-x close_or_remove
 
 hc keybind $Mod-d spawn rofi -show drun
 hc keybind $Mod-Shift-w spawn "$HOME/scripts/utilities/weather"
+hc keybind $Mod-Shift-b spawn "$HOME/scripts/utilities/battery_notify.sh"
 hc keybind $Mod-Shift-Return spawn rofi  -show Files -modi Files:/home/david/scripts/utilities/rofi-file-browser
 
 hc keybind $Mod-Return spawn ${TERMINAL:-termite} # use your $TERMINAL with xterm as fallback
@@ -159,7 +160,8 @@ hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-Shift-c cycle -1
-hc keybind Mod1-Shift-Tab cycle
+hc keybind Mod1-Shift-Tab cycle_all -1
+hc keybind Mod1-Tab cycle_all +1
 hc keybind $Mod-i jumpto urgent
 
 #Magic
