@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+header="
+---
+geometry: left=2.5cm,right=2.5cm,top=3cm,bottom=3cm
+output: pdf_document
+fontsize: 12pt
+papersize: a4
+documentclass: report
+fontfamily: palatino
+header-includes: |
+    \usepackage[labelformat=empty]{caption}
+---
+
+
+"
+file="$1"
+if [[ -f "$file" ]]; then
+	true
+else
+	echo "Use this on a file"
+	exit 1
+fi
+
+tmpfile=mktemp
+
+echo "$header" >> "$tmpfile"
+cat "$file"  >> "$tmpfile"
+
+pandoc --quiet $tmpfile -o "$(echo $file | awk -F '.' '{print $(NF-1)}').pdf"
+rm "$tmpfile"
+echo "Done!"

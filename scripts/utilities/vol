@@ -11,7 +11,7 @@ function is_mute {
 function send_notification {
 
 #  iconSound="🔊 "
-#  iconMuted="🔇 "
+#  iconMuted=" "
     if is_mute ; then
       status="%{c}MUTED"
     else

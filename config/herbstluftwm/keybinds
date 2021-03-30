@@ -72,22 +72,22 @@ hc keybind $Mod-Shift-v spawn firefox
 
 # Volume control
 #hc keybind  XF86AudioRaiseVolume spawn amixer set Master -q 1%+
-hc keybind  XF86AudioRaiseVolume  spawn "$HOME/scripts/utilities/vol" up
-hc keybind  XF86AudioLowerVolume spawn "$HOME/scripts/utilities/vol" down
-hc keybind XF86AudioMute spawn "$HOME/scripts/utilities/vol" mute
+hc keybind  XF86AudioRaiseVolume  spawn "$HOME/scripts/utilities/dunst_vol" up
+hc keybind  XF86AudioLowerVolume spawn "$HOME/scripts/utilities/dunst_vol" down
+hc keybind XF86AudioMute spawn "$HOME/scripts/utilities/dunst_vol" mute
 #!lamixer set Master -q toggle 
-#$HOME/scripts/vol mute
-hc keybind XF86MonBrightnessUp spawn "$HOME/scripts/utilities/bright" up
-hc keybind XF86MonBrightnessDown spawn "$HOME/scripts/utilities/bright" down
+#$HOME/scripts/dunst_vol mute
+hc keybind XF86MonBrightnessUp spawn "$HOME/scripts/utilities/dunst_bright" up
+hc keybind XF86MonBrightnessDown spawn "$HOME/scripts/utilities/dunst_bright" down
 
 # Spotify control
 #hc keybind $Mod-Alt-Down spawn dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
-hc keybind $Mod-Alt-Down spawn playerctl play-pause 
-hc keybind XF86AudioPlay spawn playerctl play-pause
-hc keybind $Mod-Alt-Left spawn playerctl previous
-hc keybind XF86AudioPrev spawn playerctl previous
-hc keybind $Mod-Alt-Right spawn playerctl next
-hc keybind XF86AudioNext spawn playerctl next
+hc keybind $Mod-Alt-Down chain . spawn playerctl play-pause #. spawn "$HOME/bin/get_album_art.sh"
+hc keybind XF86AudioPlay chain . spawn playerctl play-pause #. spawn "$HOME/bin/get_album_art.sh"
+hc keybind $Mod-Alt-Left chain . spawn playerctl previous #. spawn "$HOME/bin/get_album_art.sh"
+hc keybind XF86AudioPrev chain . spawn playerctl previous #. spawn "$HOME/bin/get_album_art.sh"
+hc keybind $Mod-Alt-Right chain . spawn playerctl next #. spawn "$HOME/bin/get_album_art.sh"
+hc keybind XF86AudioNext chain . spawn playerctl next #. spawn "$HOME/bin/get_album_art.sh"
 #hc keybind $Mod-Alt-Left spawn dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 #hc keybind $Mod-Alt-Right spawn dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 
@@ -160,8 +160,7 @@ hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-Shift-c cycle -1
-hc keybind Mod1-Shift-Tab cycle_all -1
-hc keybind Mod1-Tab cycle_all +1
+hc keybind Mod1-Tab spawn rofi -show window
 hc keybind $Mod-i jumpto urgent
 
 #Magic
@@ -191,7 +190,7 @@ hc keybind $Mod-Control-0 chain . spawn xrandr --auto . reload
 
 # stupid little scripts
 # Broken: hc keybind $Mod-Shift-l spawn "$HOME/scripts/locker.sh"
-hc keybind $Mod-Shift-n spawn networkmanager_dmenu 
+hc keybind $Mod-Shift-n spawn networkmanager_dmenu -b
 
 hc keybind F1 spawn rofi -show drun
 hc keybind $Mod-F1 spawn rofi -show drun
@@ -200,3 +199,4 @@ hc keybind $Mod-a spawn "$HOME/scripts/utilities/day-night.sh"
 
 # ricing
 hc keybind $Mod-g spawn "$bindir/padder"
+hc keybind $Mod-Shift-g cycle_value frame_gap 0 4 16 32 48 64

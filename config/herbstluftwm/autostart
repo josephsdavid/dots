@@ -44,14 +44,14 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule class='GLava' manage=off
-hc rule class='zoom' floating=on
+#hc rule class='zoom' floating=on
 
 hc detect_monitors
 hc set default_frame_layout 1
 # panel
 # find the panel
 nmon=$(herbstclient list_monitors | wc -l)
-panel=$paneldir/dzenpanel
+panel=$paneldir/dzen2/dzenpanel
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     "$panel" "$monitor" &
@@ -59,8 +59,9 @@ done
 
 if hc silent new_attr bool my_not_first_autostart ; then
 	hc setenv theme light
-	feh --bg-fill ~/Pictures/hank.jpg
+	feh --bg-fill ~/Pictures/wallpapers/hank.jpg
 	cp "$HOME/.config/termite/dayconf" "$HOME/.config/termite/config"
+	flashfocus &
 	# startup apps
 	# run fancy glava thing
 	if [ "$nmon" -gt 1  ]; then

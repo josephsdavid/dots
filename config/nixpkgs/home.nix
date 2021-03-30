@@ -6,6 +6,12 @@
 
   home = {
     packages = with pkgs; [
+      chafa
+      texlive.combined.scheme-full
+      pandoc
+      thunderbird
+      ueberzug
+      xwinwrap
       nixfmt
       python37Packages.dbus-python
       xorg.libXft
@@ -30,7 +36,6 @@
       zotero
       nodejs-slim_latest
       weechat
-      vscode
       networkmanager_dmenu
       aws
       dzen2
@@ -60,7 +65,6 @@
       fff
       xclip
       calcurse
-      signal-desktop
       slack
       ffmpeg
       playerctl
@@ -94,8 +98,10 @@
     };
   };
   programs = {
+    command-not-found.enable=true;
     git = {
       enable = true;
+      lfs.enable = true;
       userName = "josephsdavid";
       userEmail = "josephsd@smu.edu";
     };
@@ -106,6 +112,14 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   services = {
+    cbatticon = {
+      enable = true;
+      commandCriticalLevel=''
+        notify-send -u critical "Battery Critical(5%)!"
+        paplay /run/current-system/sw/share/sounds/freedesktop/stereo/dialog-warning.oga
+        paplay /run/current-system/sw/share/sounds/freedesktop/stereo/dialog-warning.oga
+      '';
+    };
     screen-locker = {
       enable = true;
       inactiveInterval = 10;
@@ -175,19 +189,19 @@
           history = "ctrl+grave";
           close = "ctrl+space";
         };
-        music = {
-          appname = "Spotify";
-          summary = "Now playing";
+
+        spotify = {
+          appname = "*Spotify*";
+          script = "/home/david/scripts/utilities/get_album_art.sh";
           urgency = "low";
         };
+        #  music = {
+        #    appname = "Spotify";
+        #    summary = "Now playing";
+        #    urgency = "low";
+        #  };
       };
 
-      #      scripts = [''
-      #          [music]
-      #          appname = "Spotify";
-      #          summary = "Now playing";
-      #          urgency = "critical";
-      #        ''];
     };
 
   };

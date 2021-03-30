@@ -6,11 +6,12 @@ hc() {
 
 pad() {
 	size=$2 
+	pad_height=$(hc getenv pad_height)
 	if [ $1 ]; then
-		hc pad 0 0 0 36 0
+		hc pad 0 $pad_height 0 0 0
 		hc unsetenv padded
 	else
-		hc pad 0 $size $size $((size+36)) $size
+		hc pad 0 $((size+pad_height)) $size $size  $size
 		hc setenv padded pppp
 	fi
 }

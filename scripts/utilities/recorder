@@ -13,7 +13,6 @@ n="\e[0m"
 b="\e[1m"
 
 help="
-Gauge Krahe's ${ye}(https://gitlab.com/gaugek)${n} ffmpeg recording script
 ${b}CLI Syntax: ${n} 
   ${ye}\$${n} ${gr}record ${bl}<Offset X> <Offset Y> <Width> <Height> <Frames Per Second> <Desktop audio (yes|no)>${n}
 When ran without any arguments (Or with missing arguments), it will get the (missing) options with dmenu

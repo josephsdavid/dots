@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+notesdir="$HOME/notes"
+if [ $# -eq 0 ]; then
+	ranger "$notesdir"
+	exit
+fi
+
+name="$1"
+
+nvim "$notesdir/$name.md"
+

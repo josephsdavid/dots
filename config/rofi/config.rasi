@@ -40,11 +40,11 @@ modi: "window,drun,ssh,combi";
 }
 
 window {
-	location:	 south west;
-	anchor:		 south west;
-	height:		 60%;
+	location:	 north west;
+	anchor:		 north west;
+	height:		 100%;
 	width:		 22%;
-	y-offset:-36;
+	y-offset:0;
 	orientation: horizontal;
 	children:	 [mainbox];
 	border: 3;
