@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+. /home/david/.config/herbstluftwm/panels/dzen2/colors.sh
 bat="$1"
 storage="$HOME/usr/tmp/battery"
 previous_bat="$(cat "$storage")"
@@ -17,18 +18,18 @@ fi
 bat_num=$(echo "$bat" | awk '{print $2}' | sed 's/%//g')
 
 if [ "$(echo "$bat_num < 25" | bc)" -eq 1 ]; then
-	batfg="#d70000"
-elif [ "$(echo "25 <= $bat_num && $bat_num < 50" | bc)" -eq 1 ]; then
-	batfg='#d75f00'
+	batfg="$red"
+elif [ "$(echo "25 <= $bat_num && $bat_num < 60" | bc)" -eq 1 ]; then
+	batfg="$yellow"
 else
-	batfg='#008700'
+	batfg="$green"
 fi
 
 bat_percent=$((bat_num / 10)) #bash does integer division!!
 
 if [ "$bat_stat" != "Discharging" ]; then
-	bat_ico='^i(/home/david/Pictures/icons/ac.xbm)'
+        bat_ico=$(cat ~/Pictures/icons/cbat_"$bat_percent"0.txt)
 else
-	bat_ico="^i(/home/david/Pictures/icons/bat_"$bat_percent"0.xbm)"
+        bat_ico=$(cat ~/Pictures/icons/bat_"$bat_percent"0.txt)
 fi
 

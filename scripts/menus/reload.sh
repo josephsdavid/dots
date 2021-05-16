@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-action=$(printf "configuration.nix\nhome.nix\nWindow manager\n<<<" | rofi -dmenu -i -p "System settings:")
+herbstclient emit_hook reload_settings
+action=$(printf "configuration.nix\nhome.nix\nWindow manager\n<<<" | rofi -dmenu -columns 3 -i -p "Reload system settings:")
 
 case "$action" in
 	"configuration.nix")

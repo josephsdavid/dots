@@ -6,7 +6,8 @@
 
   home = {
     packages = with pkgs; [
-      chafa
+      conky
+      xorg.transset
       texlive.combined.scheme-full
       pandoc
       thunderbird
@@ -14,13 +15,14 @@
       xwinwrap
       nixfmt
       python37Packages.dbus-python
+      python37Packages.pygobject3
       xorg.libXft
       xorg.libXpm
       xorg.libXfont
       sysstat
       pulsemixer
       blueberry
-      conky
+      polybarFull
       et
       glava
       dunst
@@ -90,7 +92,7 @@
     enable = true;
     theme = {
       package = pkgs.matcha-gtk-theme;
-      name = "Matcha-dark-azul";
+      name = "Matcha-dark-aliz";
     };
     iconTheme = {
       package = pkgs.papirus-icon-theme;
@@ -150,7 +152,7 @@
           follow = "keyboard";
           font = "Iosevka-Nerd-Font 13";
           format = "<b>%s</b>\\n%b";
-          frame_color = "#555555";
+          frame_color = "#240e28";
           frame_width = 2;
           geometry = "500x5-5+50";
           horizontal_padding = 8;
@@ -165,23 +167,23 @@
         };
 
         urgency_low = {
-          background = "#444444dd";
+          background = "#240e28dd";
           foreground = "#d3d7cf";
-          frame_color = "#008700";
+          frame_color = "#2bd1fc";
           timeout = 5;
         };
 
         urgency_normal = {
-          background = "#444444dd";
+          background = "#240e28dd";
           foreground = "#d3d7cf";
-          frame_color = "#0087af";
+          frame_color = "#06e514";
           timeout = 15;
         };
 
         urgency_critical = {
-          background = "#444444dd";
+          background = "#240e28dd";
           foreground = "#d3d7cf";
-          frame_color = "#af0000";
+          frame_color = "#ff3f3f";
           timeout = 0;
         };
 

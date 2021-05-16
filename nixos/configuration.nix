@@ -48,8 +48,7 @@
   };
 
   networking.hostName = "computer"; # Define your hostname.
-  networking.networkmanager.enable =
-    true; # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true; # Enables wireless support via wpa_supplicant.
 
   time.timeZone = "America/Chicago";
   environment.variables = {
@@ -75,7 +74,12 @@
     dejavu_fonts
   ];
   environment.systemPackages = with pkgs; [
+    networkmanagerapplet
+    glib
+    glibc
+    pkg-config
     cmake
+    gcc
     wget
     vim
     git
@@ -145,6 +149,8 @@
     from = 32768;
     to = 61000;
   }];
+  networking.firewall.extraCommands =
+    "iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT";
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -200,17 +206,25 @@
 
     printing = { enable = true; };
 
-    upower = { enable = true; };
+    upower = { enable = true; ignoreLid =  true;};
 
     xserver = {
+      displayManager = {
+        lightdm.enable = true;
+        lightdm.background = /home/david/Pictures/wallpapers/cool.png;
+        lightdm.greeters = {
+          gtk.theme.package = pkgs.matcha-gtk-theme;
+          gtk.theme.name = "Matcha-light-aliz";
+        };
+        #sddm.theme = "maya";
+        autoLogin.enable=true;
+        autoLogin.user = "david";
+      };
       enable = true;
       xkbOptions = "caps:escape";
 
-      windowManager = {
-        herbstluftwm.enable = true;
-        bspwm.enable = true;
-      };
-      desktopManager = { xfce.enable = true; };
+      windowManager = { herbstluftwm.enable = true; };
+      desktopManager = { plasma5.enable = true; };
       synaptics = {
         enable = true;
         twoFingerScroll = true;
@@ -227,12 +241,12 @@
 
     picom = {
       enable = true;
+      backend = "glx";
+      vSync = true;
       fade = false;
       inactiveOpacity = 1.0;
       settings = {
-        blur = {
-          method = "gaussian";
-        };
+        blur = { method = "gaussian"; };
         shadow = true;
       };
     };

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 
-action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nMonitor configuration\nDisplay power saver\nAudio settings\nBluetooth settings\nRead a book\nSet the wallpaper" | rofi -dmenu -i -p "System Actions:")
+herbstclient emit_hook system_menu
+action=$(printf "Sign out\nDo not disturb\nTake a screenshot\nInstall packages\nSystem settings\nReload\nMonitor configuration\nDisplay power saver\nAudio settings\nBluetooth settings\nRead a book\nSet the wallpaper" | rofi -dmenu -columns 2 -i -p "System Actions:")
 
 
 

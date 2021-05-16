@@ -53,7 +53,7 @@ cursor = #93a1a1
 #foreground = #dcdccc
 foreground   =    #202421
 #foreground_bold = #ffffff
-background = rgba(255, 255, 250, 0.85)
+background = rgba(255, 255, 250, 0.95)
 #fffffa
 
 # 20% background transparency (requires a compositor)

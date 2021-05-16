@@ -29,4 +29,4 @@ message/rfc822=userapp-Thunderbird-S5FF00.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-MYNK00.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird-3YMC00.desktop;userapp-Thunderbird-A4OO00.desktop;userapp-Thunderbird-6W9Q00.desktop;userapp-Thunderbird-3EAL00.desktop;userapp-Thunderbird-IH0C00.desktop;userapp-Thunderbird-S5FF00.desktop;
 message/rfc822=userapp-Thunderbird-3YMC00.desktop;userapp-Thunderbird-A4OO00.desktop;userapp-Thunderbird-6W9Q00.desktop;userapp-Thunderbird-3EAL00.desktop;userapp-Thunderbird-IH0C00.desktop;userapp-Thunderbird-S5FF00.desktop;
-application/pdf=org.pwmt.zathura.desktop;
+application/pdf=org.pwmt.zathura.desktop;writer.desktop;

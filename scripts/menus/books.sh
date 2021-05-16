@@ -2,7 +2,8 @@
 
 dir="$HOME/books"
 
-selection=$(find "$dir" -type f  | awk -F '/' '{print $NF}'| rofi -dmenu -i -p "What would you like to read?")
+herbstclient emit_hook bookselector
+selection=$(find "$dir" -type f  | awk -F '/' '{print $NF}'| rofi -columns  3 -dmenu -i -p "What would you like to read?")
 
 if [ "$selection" ]; then
 	zathura "$dir/$selection"

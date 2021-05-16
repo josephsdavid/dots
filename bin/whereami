@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+OUTPUT_FILE=/tmp/server_location.txt
+
+# Grab this server's public IP address
+PUBLIC_IP=`curl -s https://ipinfo.io/ip`
+
+# Call the geolocation API and capture the output
+echo "$(curl https://ipvigilante.com/${PUBLIC_IP})" 

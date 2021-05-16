@@ -58,10 +58,10 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
 done
 
 if hc silent new_attr bool my_not_first_autostart ; then
-	hc setenv theme light
-	feh --bg-fill ~/Pictures/wallpapers/hank.jpg
-	cp "$HOME/.config/termite/dayconf" "$HOME/.config/termite/config"
-	flashfocus &
+	hc setenv theme dark
+	feh --bg-fill ~/Pictures/wallpapers/pizza.jpg
+	cp "$HOME/.config/termite/nightconf" "$HOME/.config/termite/config"
+        #hc spawn ~/bin/album_daemon.sh
 	# startup apps
 	# run fancy glava thing
 	if [ "$nmon" -gt 1  ]; then

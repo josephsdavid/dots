@@ -15,25 +15,26 @@ set -e
 #
 # If you call this script with "grid", then you obtain a window switcher,
 # similar to that of Mac OS X.
-mode=${1:-max} # just some valid layout algorithm name
+mode=${1:-grid} # just some valid layout algorithm name
 
 # Initialise
-herbstclient get_attr tags.focus.my_unmaximized_layout 1>/dev/null 2>/dev/null || \
-  herbstclient new_attr string tags.focus.my_unmaximized_layout
+herbstclient get_attr tags.focus.my_og_layout 1>/dev/null 2>/dev/null || \
+  herbstclient new_attr string tags.focus.my_og_layout
 
 layout=$(herbstclient dump)
 cmd=(
 # remember which client is focused
-substitute FOCUS clients.focus.winid chain . lock
+substitute FOCUS clients.focus.winid chain
+. lock
 . or : and # if there is more than one frame, then don't restore, but maximize again!
            , compare tags.focus.frame_count = 1
            # if we have such a stored layout, then restore it, else maximize
-           , compare tags.focus.my_unmaximized_layout != ""
-           , substitute STR tags.focus.my_unmaximized_layout load STR
+           , compare tags.focus.my_og_layout != ""
+           , substitute STR tags.focus.my_og_layout load STR
            # remove the stored layout
-           , set_attr tags.focus.my_unmaximized_layout ""
+           , set_attr tags.focus.my_og_layout ""
      : chain # save the current layout in the attribute
-             , set_attr tags.focus.my_unmaximized_layout "$layout"
+             , set_attr tags.focus.my_og_layout "$layout"
              # force all windows into a single frame in max layout
              , load "(clients $mode:0 )"
 # both load commands accidentally change the window focus, so restore the
@@ -43,3 +44,4 @@ substitute FOCUS clients.focus.winid chain . lock
 )
 herbstclient emit_hook layout_changed
 herbstclient "${cmd[@]}"
+

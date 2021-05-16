@@ -23,8 +23,8 @@ configdir="$HOME/.config/herbstluftwm"
 bindir=$configdir/"bin"
 
 # tags
-tag_names=( {1..9} )
-tag_keys=( {1..9} 0 )
+tag_names=( {1..9} ) 
+tag_keys=( {1..9} )
 
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
@@ -58,7 +58,7 @@ hc keybind $Mod-Shift-x close_or_remove
 
 # Birth
 
-hc keybind $Mod-d spawn rofi -show drun
+hc keybind $Mod-d chain . emit_hook dmenu . spawn rofi -show drun -columns 3
 hc keybind $Mod-Shift-w spawn "$HOME/scripts/utilities/weather"
 hc keybind $Mod-Shift-b spawn "$HOME/scripts/utilities/battery_notify.sh"
 hc keybind $Mod-Shift-Return spawn rofi  -show Files -modi Files:/home/david/scripts/utilities/rofi-file-browser
@@ -148,10 +148,10 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # Frame Manipulations
-hc keybind $Mod-space                                                             \
+hc keybind $Mod-space chain cc                                                            \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
-               , cycle_layout +1
+               , cycle_layout +1 cc emit_hook layout_changed
 
 
 #Monitor
@@ -160,12 +160,12 @@ hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-Shift-c cycle -1
-hc keybind Mod1-Tab spawn rofi -show window
+hc keybind Mod1-Tab spawn "$bindir"/switcher.sh
 hc keybind $Mod-i jumpto urgent
 
 #Magic
 hc keybind $Mod-grave spawn "$bindir"/scratchpad
-hc keybind $Mod-s spawn rofi -show window
+hc keybind $Mod-s chain . emit_hook window_search . spawn rofi -show window
 hc keybind $Mod-Shift-s spawn ~/scripts/menus/search.sh
 #minimize and maximize windows
 hc keybind $Mod-m         spawn "$bindir"/minimize +1
@@ -190,7 +190,7 @@ hc keybind $Mod-Control-0 chain . spawn xrandr --auto . reload
 
 # stupid little scripts
 # Broken: hc keybind $Mod-Shift-l spawn "$HOME/scripts/locker.sh"
-hc keybind $Mod-Shift-n spawn networkmanager_dmenu -b
+hc keybind $Mod-Shift-n spawn networkmanager_dmenu
 
 hc keybind F1 spawn rofi -show drun
 hc keybind $Mod-F1 spawn rofi -show drun

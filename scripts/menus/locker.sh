@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
-output=$(printf "logout\nlock\nhibernate\nreboot\nsuspend\nshutdown\n<<<" | rofi -dmenu -i -p "Select an action:")
+herbstclient emit_hook logout
+output=$(printf "logout\nlock\nhibernate\nreboot\nsuspend\nshutdown\n<<<" | rofi -columns 3 -dmenu -i -p "Select an action:")
 
 case "$output" in
 	logout)

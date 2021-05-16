@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 get_temp() {
-	temps="$(sensors | grep °C | grep "temp1\|Composite" | tr "\t" " " | tr "+" " " | tr "°C" " " | awk '{print $2}')"
+	temps="$(sensors | grep °C | grep "temp1:\|Composite" | tr "\t" " " | tr "+" " " | tr "°C" " " | awk '{print $2}')"
 	divisor="$(echo "$temps" | wc -l)"
 	sum="$(echo "$temps" | paste -sd+ - | bc)"
 
@@ -12,12 +12,12 @@ get_bat() {
 }
 
 get_ram() {
-	free -b | grep Mem | awk '{ printf("%.0f\n",  ($3 * 100 / $2)) }'
+	free -b | grep Mem | awk '{ print int($3 * 100 / $2) }'
 }
 
 get_swap() {
-	free -b | grep Swap | awk '{ printf("%.0f\n",  ($3 * 100 / $2)) }'
+	free -b | grep Swap | awk '{ print   int($3 * 100 / $2) }'
 }
 get_cpu() {
-	iostat -c | head -n 4 | tail -n 1 | awk '{print 100-$6}'
+	iostat -c | head -n 4 | tail -n 1 | awk '{print int(100-$6)}'
 }

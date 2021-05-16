@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+herbstclient emit_hook package_search
 x=$(nix search | ansifilter | grep "\*"  |rofi -dmenu -i -p "Search NixOS Packages:" | awk '{print $2}' | cut -d "." -f2-)
 prompt=$(nix search "$x" | ansifilter)
 

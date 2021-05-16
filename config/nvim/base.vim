@@ -1,5 +1,6 @@
 set bg=light
 
+
 "use system clipboard
 set clipboard=unnamedplus
 
@@ -55,7 +56,7 @@ hi Search cterm=underline,italic,bold ctermfg=250 ctermbg=NONE
 "hi Visual ctermfg=NONE ctermbg=253
 hi Visual ctermfg=250 ctermbg=NONE cterm=italic,bold,underline
 highlight PmenuSel ctermbg=232  ctermfg=250 cterm=italic,bold
-highlight Pmenu ctermbg=darkgray  ctermfg=black
+highlight Pmenu ctermbg=lightgray  ctermfg=black
 highlight cocFloating ctermbg=black
 set incsearch
 " magic searches
@@ -78,7 +79,9 @@ set noswapfile
 
 " Status bar things
 set laststatus=2
-set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" more status bar stuff
+iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c\ %=\ TIME:\ %{strftime('%c')}
 
 
 
@@ -93,8 +96,6 @@ if has("autocmd")
 	autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
-" more status bar stuff
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 
 
