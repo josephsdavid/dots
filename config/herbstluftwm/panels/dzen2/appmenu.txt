@@ -1,0 +1,7 @@
+"^fn(Noto Sans Display Nerd Font-72)^ca(1, herbstclient spawn rofi -show combi)^fg($pink) ^ca()"
+"^fn(Noto Sans Display Nerd Font-72)^ca(1, herbstclient spawn termite -e vim)^fg($green)  ^ca()"
+"^fn(Noto Sans Display Nerd Font-72)^ca(1, herbstclient spawn firefox)^fg($orange)  ^ca()"
+"^fn(Noto Sans Display Nerd Font-72)^ca(1, herbstclient spawn google-chrome-stable)^fg($blue)  ^ca()"
+"^fn(Noto Sans Display Nerd Font-72)^ca(herbstclient spawn Discord)^fg($purple) ﭮ ^ca()"
+"^fn(Noto Sans Display Nerd Font-72)^ca(1, herbstclient spawn slack)^fg($red) ^ca()"
+

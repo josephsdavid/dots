@@ -6,6 +6,9 @@
 
   home = {
     packages = with pkgs; [
+      stalonetray
+      gsimplecal
+      gcalcli
       conky
       xorg.transset
       texlive.combined.scheme-full
@@ -208,12 +211,12 @@
 
   };
   xdg.configFile."nixpkgs/config.nix".text = "builtins.fromJSON ''${
-      builtins.toJSON {
+    builtins.toJSON {
 
-        allowUnfree = true;
-        oraclejdk.accept_license = true;
+      allowUnfree = true;
+      oraclejdk.accept_license = true;
 
-      }
-    }''";
+    }
+  }''";
 
 }

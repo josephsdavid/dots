@@ -6,5 +6,5 @@ purple="#c04df9"
 red="#ff3f3f"
 green="#06e514"
 blue='#2bd1fc'
-orange="#c04df9"
+orange="#ff6127"
 normal_bg="#240e28"

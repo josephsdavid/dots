@@ -64,3 +64,15 @@ map <M-l> <C-W>l
 " go to start of line with zero
 map 0 ^
 
+let g:zepl_default_maps = 0
+nmap <silent> <Leader>s <Plug>ReplSend_Motion
+vmap <silent> <Leader>s <Plug>ReplSend_Visual
+nmap <silent> <Leader>ss :ReplSend <cr>
+
+tnoremap <Esc> <C-\><C-n>
+
+
+tnoremap <M-j> <C-\><C-n><C-W>j
+tnoremap <M-k> <C-\><C-n><C-W>k
+tnoremap <M-h> <C-\><C-n><C-W>h
+tnoremap <M-l> <C-\><C-n><C-W>l

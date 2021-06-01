@@ -1,7 +1,8 @@
 "Plugin section
 call plug#begin('~/.data/plugged')
-
+Plug 'axvr/zepl.vim'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'LnL7/vim-nix'

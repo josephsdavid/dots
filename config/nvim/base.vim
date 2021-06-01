@@ -21,7 +21,7 @@ autocmd FileType sh nnoremap <buffer> <F8> :exec '!shfmt -w' shellescape(@%, 1)<
 autocmd FileType nix nnoremap <buffer> <F8> :exec '!nixfmt' shellescape(@%, 1)<cr>
 
 " other autocmds
-autocmd FileType markdown setlocal spell
+" autocmd FileType markdown setlocal spell
 " relative numbering on the number line for conveneient jumping
 "set relativenumber
 set number
@@ -108,3 +108,15 @@ let g:vim_markdown_conceal_code_blocks = 0
 "	au! BufNewFile,BufFilePre,BufRead *.[R]md set filetype=markdown.pandoc
 "augroup END
 let R_assign = 3
+
+runtime zepl/contrib/python.vim  " Enable the Python contrib module.
+runtime zepl/contrib/nvim_autoscroll_hack.vim
+
+let g:repl_config = {
+            \   'python': {
+            \     'cmd': 'python',
+            \     'formatter': function('zepl#contrib#python#formatter')
+            \   }
+            \ }
+tnoremap <Esc> <C-\><C-n>
+runtime zepl/contrib/nvim_autoscroll_hack.vim

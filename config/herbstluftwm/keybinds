@@ -59,6 +59,7 @@ hc keybind $Mod-Shift-x close_or_remove
 # Birth
 
 hc keybind $Mod-d chain . emit_hook dmenu . spawn rofi -show drun -columns 3
+hc keybind $Mod-a spawn "$bindir/conky"
 hc keybind $Mod-Shift-w spawn "$HOME/scripts/utilities/weather"
 hc keybind $Mod-Shift-b spawn "$HOME/scripts/utilities/battery_notify.sh"
 hc keybind $Mod-Shift-Return spawn rofi  -show Files -modi Files:/home/david/scripts/utilities/rofi-file-browser
@@ -194,7 +195,7 @@ hc keybind $Mod-Shift-n spawn networkmanager_dmenu
 
 hc keybind F1 spawn rofi -show drun
 hc keybind $Mod-F1 spawn rofi -show drun
-hc keybind $Mod-a spawn "$HOME/scripts/utilities/day-night.sh"
+hc keybind $Mod-Shift-space spawn "$HOME/scripts/utilities/day-night.sh"
 
 
 # ricing

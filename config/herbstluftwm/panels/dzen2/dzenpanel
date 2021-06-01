@@ -12,24 +12,24 @@ tag_names_fancy="1,,,,,,,,,"
 IFS="," read -ra tag_names <<< "$tag_names_fancy"
 frame_layout() {
         layout="$(hc layout | grep FOCUS)"
+        num_windows="$(echo "$layout" | grep -o '0x' | wc -l)"
         case "$layout" in
                 *'max'*) 
-                        echo "^fg($pink)Maximized ^fg($yellow) "
+                        echo "^fg($pink)Maximized ^fg($yellow)  ^fg($purple)$num_windows"
                         ;;
                 *'vertical'*)
-                        echo "^fg($pink)Vertical ^fg($yellow)ﮆ"
+                        echo "^fg($pink)Vertical ^fg($yellow)ﮆ ^fg($purple)$num_windows"
                         ;;
                 *'horizontal'*)
-                        echo "^fg($pink)Horizontal ^fg($yellow)ﮇ"
+                        echo "^fg($pink)Horizontal ^fg($yellow)ﮇ ^fg($purple)$num_windows"
                         ;;
                 *'grid'*)
-                        echo "^fg($pink)Grid ^fg($yellow)﩯"
+                        echo "^fg($pink)Grid ^fg($yellow)﩯 ^fg($purple)$num_windows"
                         ;;
         esac
 }
 
 font="-*-tamsyn-*-*-*-*-12-*-*-*-*-*-*-*"
-glyph_font='-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1'
 bgcolor="$normal_bg" #'#000000'
 selbg="$red" #'#d70000' #'#0087af'
 gray_col='#ffffff'
@@ -104,10 +104,7 @@ fi
 	while true; do
 		date +$'date\t^fg()%H:%M:%S^fg(#b2b2b2) %m-^fg()%d'
 		get_bat
-		theme=$(hc getenv theme)
-		#get_ram
-		$(get_temp)
-		#get_cpu
+		get_temp
 		sleep 0.5 || break
 	done > >(uniq_linebuffered) &
 	childpid=$!
@@ -209,7 +206,7 @@ fi
 			if [ "$(playerctl -l | grep spotify)" ]; then
 				spotify=$(. "$HOME/.config/herbstluftwm/panels/dzen2/spotify.sh" "$fg_col" "#b2b2b2")
 				spotify="^fg($green)$spotify"
-				spotify="$separator^ca(2, playerctl -p spotify play-pause)^ca(3, playerctl -p spotify next)^ca(1, playerctl -p spotify previous)$spotify^ca()^ca()^ca()      "
+				spotify="$separator^ca(2, playerctl -p spotify play-pause)^ca(3, playerctl -p spotify next)^ca(1, playerctl -p spotify previous)$spotify^ca()^ca()^ca()  "
 			else
 				spotify=""
 			fi

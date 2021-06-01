@@ -74,6 +74,14 @@
     dejavu_fonts
   ];
   environment.systemPackages = with pkgs; [
+    gnome3.gnome-tweaks
+    gnome-themes-extra
+    gnome3.gnome-shell
+    gnome3.gnome-shell-extensions
+    gnome3.dconf-editor
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.dash-to-panel
+    gnome3.gnome-calendar
     networkmanagerapplet
     glib
     glibc
@@ -130,6 +138,8 @@
     spotify
     wget
     nixos-icons
+    material-design-icons
+    material-icons
     killall
     termite
     lm_sensors
@@ -195,6 +205,7 @@
 
   services = {
     gnome3.gnome-keyring.enable = true;
+  # optional to use google/nextcloud calendar
     teamviewer.enable = true;
     logind.lidSwitchExternalPower = "ignore";
     openssh = {
@@ -210,21 +221,26 @@
 
     xserver = {
       displayManager = {
-        lightdm.enable = true;
-        lightdm.background = /home/david/Pictures/wallpapers/cool.png;
-        lightdm.greeters = {
-          gtk.theme.package = pkgs.matcha-gtk-theme;
-          gtk.theme.name = "Matcha-light-aliz";
-        };
+        gdm.enable = true;
+        gdm.wayland=false;
+        #lightdm.background = /home/david/Pictures/wallpapers/cool.png;
+        #lightdm.greeters = {
+        #  gtk.theme.package = pkgs.matcha-gtk-theme;
+        #  gtk.theme.name = "Matcha-light-aliz";
+        #};
         #sddm.theme = "maya";
-        autoLogin.enable=true;
-        autoLogin.user = "david";
+        #autoLogin.enable=true;
+        #autoLogin.user = "david";
       };
       enable = true;
       xkbOptions = "caps:escape";
 
       windowManager = { herbstluftwm.enable = true; };
-      desktopManager = { plasma5.enable = true; };
+      desktopManager = {
+        gnome3 = {
+          enable = true;
+        };
+      };
       synaptics = {
         enable = true;
         twoFingerScroll = true;
@@ -244,10 +260,11 @@
       backend = "glx";
       vSync = true;
       fade = false;
+      #fadeDelta=5;
       inactiveOpacity = 1.0;
       settings = {
         blur = { method = "gaussian"; };
-        shadow = true;
+        shadow = false;
       };
     };
   };

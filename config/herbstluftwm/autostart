@@ -59,7 +59,8 @@ done
 
 if hc silent new_attr bool my_not_first_autostart ; then
 	hc setenv theme dark
-	feh --bg-fill ~/Pictures/wallpapers/pizza.jpg
+        hc setenv conky off
+	feh --bg-fill ~/Pictures/wallpapers/astornaut.jpg
 	cp "$HOME/.config/termite/nightconf" "$HOME/.config/termite/config"
         #hc spawn ~/bin/album_daemon.sh
 	# startup apps

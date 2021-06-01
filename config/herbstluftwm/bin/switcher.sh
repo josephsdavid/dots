@@ -15,7 +15,7 @@ set -e
 #
 # If you call this script with "grid", then you obtain a window switcher,
 # similar to that of Mac OS X.
-mode=${1:-grid} # just some valid layout algorithm name
+mode=${1:-horizontal} # just some valid layout algorithm name
 
 # Initialise
 herbstclient get_attr tags.focus.my_og_layout 1>/dev/null 2>/dev/null || \
