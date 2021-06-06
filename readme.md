@@ -3,3 +3,6 @@
 ```bash
 ./home-install.sh
 ```
+
+![](plainSquirrelMonkey.png)
+![](wretchedGoldenRetriever.png)
