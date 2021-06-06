@@ -21,8 +21,8 @@ function send_notification {
     # https://en.wikipedia.org/wiki/Box-drawing_character
     bar=$(seq -s "━" $(($volume / 3)) | sed 's/[0-9]//g')
     # Send the notification
-    dunstify -i /run/current-system/sw/share/icons/Adwaita/16x16/status/audio-volume-medium-symbolic.symbolic.png   -r 2593 -u normal " 🔊 $volume%	$bar" -a volume
-    paplay /run/current-system/sw/share/sounds/freedesktop/stereo/audio-volume-change.oga
+    dunstify -i "~/bin/notes" -r 2593 -u low " 🔊 $volume%	$bar" -a volume
+    paplay ~/install/Smooth/stereo/audio-volume-change.oga
 }
 
 case $1 in
@@ -42,7 +42,7 @@ case $1 in
     	# Toggle mute
 	amixer  set Master 1+ toggle > /dev/null
 	if is_mute ; then
-	    dunstify -i audio-volume-muted -r 2593 -u normal "🔇 	Mute"
+	    dunstify -i "~/bin/notes" -r 2593 -u normal "🔇 	Mute"
 	else
 	    send_notification
 	fi

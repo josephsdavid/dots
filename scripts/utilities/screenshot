@@ -30,11 +30,11 @@ esac
 case "$action" in
 	Fullscreen)
 		scrot "$filepath"
-		paplay /run/current-system/sw/share/sounds/freedesktop/stereo/screen-capture.oga
+		paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
 		;;
 	Slop)
 		maim -s "$filepath"
-		paplay /run/current-system/sw/share/sounds/freedesktop/stereo/screen-capture.oga
+		paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
 
 		;;
 	Video)

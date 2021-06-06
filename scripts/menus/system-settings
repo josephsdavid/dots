@@ -5,19 +5,19 @@ action=$(printf "System config file\nUser config file\nWindow management\nVim co
 
 case "$action" in
 	"System config file")
-		"${TERMINAL:-termite}" -e "sudoedit /etc/nixos/configuration.nix"
+		"${TERMINAL:-alacritty}" -e "sudoedit /etc/nixos/configuration.nix"
 		;;
 	"User config file")
-		"${TERMINAL:-termite}" -e "home-manager edit"
+		"${TERMINAL:-alacritty}" -e "home-manager edit"
 		;;
 	"Window management")
-		"${TERMINAL:-termite}" -e "ranger $HOME/.config/herbstluftwm/"
+		"${TERMINAL:-alacritty}" -e "ranger $HOME/.config/herbstluftwm/"
 		;;
 	"Vim configuration")
-		"${TERMINAL:-termite}" -e "ranger $HOME/.config/nvim/"
+		"${TERMINAL:-alacritty}" -e "ranger $HOME/.config/nvim/"
 		;;
 	"Other")
-		"${TERMINAL:-termite}" -e "ranger $HOME/.config/"
+		"${TERMINAL:-alacritty}" -e "ranger $HOME/.config/"
 		;;
 	"<<<")
 		"$HOME/scripts/menus/system-menu.sh"

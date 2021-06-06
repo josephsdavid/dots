@@ -23,7 +23,7 @@ autocmd FileType nix nnoremap <buffer> <F8> :exec '!nixfmt' shellescape(@%, 1)<c
 " other autocmds
 " autocmd FileType markdown setlocal spell
 " relative numbering on the number line for conveneient jumping
-"set relativenumber
+set relativenumber
 set number
 
 " backspace stuff
@@ -58,6 +58,9 @@ hi Visual ctermfg=250 ctermbg=NONE cterm=italic,bold,underline
 highlight PmenuSel ctermbg=232  ctermfg=250 cterm=italic,bold
 highlight Pmenu ctermbg=lightgray  ctermfg=black
 highlight cocFloating ctermbg=black
+highlight SignColumn ctermbg=0
+hi pythonStatement ctermfg=2
+hi pythonbuiltin ctermfg=14
 set incsearch
 " magic searches
 set magic
@@ -67,7 +70,7 @@ set completeopt=longest,menuone
 set lazyredraw
 
 " folding
-set foldcolumn=1
+set foldcolumn=0
 set encoding=utf8
 
 " undo, backup, swap directories for when I accidentally hit ZZ

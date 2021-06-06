@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Neovim
-Exec=termite -e "nvim %F"
+Exec=alacritty -e "nvim %F"
 Terminal=false
 Icon=gvim
 Keywords=Text;editor;

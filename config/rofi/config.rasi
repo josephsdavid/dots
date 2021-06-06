@@ -8,13 +8,13 @@ modi: "window,drun,ssh,combi";
 }
 
 * {
-	background-color:            #240e28;
+	background-color:            #585858;
 	font: "Iosevka-Nerd-Font 13";
-	text-color:                  #d3d7cf;
-	selbg:                       #06e514;
-	actbg:                       #06e514;
+	text-color:                  #ffffff;
+	selbg:                       #ffffff;
+	actbg:                       #ffffff;
 	urgbg:                       #e53935;
-	winbg:			     #240e28;
+	winbg:			     #000000;
 
 	selected-normal-foreground:  @winbg;
 	normal-foreground:           @text-color;
@@ -48,7 +48,7 @@ window {
 	orientation: horizontal;
 	children:	 [mainbox];
 	border: 8;
-	border-color: #2bd1fc;
+	border-color: #b2b2b2;
 }
 
 mainbox {
@@ -66,7 +66,7 @@ textbox-prompt-colon {
 button { padding: 5px 2px; }
 
 button selected {
-	background-color: #c04df9;
+	background-color: #b2b2b2;
 	text-color:       @winbg;
 }
 

@@ -10,7 +10,7 @@ if [ "$spotify" ]; then
 	else
 		ico=""
 	fi
-        echo "^fn(Noto Sans Display Nerd Font-48)^ca(1, playerctl previous) ^ca()^ca(1, playerctl play-pause)$ico^ca()^ca(1, playerctl next) ^ca()" ; sleep 1
+        echo "^fn(Noto Sans Display Nerd Font-48)^ca(1, playerctl previous) ^ca()^ca(1, playerctl play-pause)$ico^ca()^ca(1, playerctl next) ^ca()" ;
 else
         echo "^fn(Noto Sans Display Nerd Font-44)^ca(1, herbstclient spawn ~/scripts/menus/system-settings)^fg(gray)漣 ^ca()^ca(1, herbstclient spawn spotify)^fg($green) ^ca()^ca(1, herbstclient spawn ~/scripts/utilities/screenshot)^fg($blue)^ca()"
 fi
@@ -24,5 +24,5 @@ fi
                 echo ""
         fi
         sleep 0.5
-done } | dzen2  -h 80 -x 250 -w 210 -y 965 -bg "#240e28" -fg "#ffffff" -ta c -e "ungrabkeys; onstart=lower" -title-name "spotify_bar" &
+done } | dzen2  -h 80 -x 20 -w 210 -y 390 -bg "$normal_bg" -fg "#ffffff" -ta c -e "ungrabkeys; onstart=lower" -title-name "spotify_bar" -p &
 

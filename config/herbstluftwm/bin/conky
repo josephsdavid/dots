@@ -4,7 +4,7 @@ conky_status=$(herbstclient getenv conky)
 herbstclient lock
 if [ "$conky_status" != "off" ]; then
         sleep 0.5
-        for pid in $(ps -A --sort=time | grep "dzen" | head -n 2 | awk '{print $1}'); do kill -9 $pid; done
+        for pid in $(ps -A --sort=time | grep "dzen" | head -n 1 | awk '{print $1}'); do kill -9 $pid; done
         pkill conky
         pkill stalonetray
         herbstclient pad 0 $(herbstclient getenv pad_height) 0 0 0
@@ -13,8 +13,8 @@ else
         conky -c ~/.conky/conkyrc
         sleep 0.5
         herbstclient spawn ~/.config/herbstluftwm/panels/dzen2/spotify_menu.sh &
-        herbstclient spawn ~/.config/herbstluftwm/panels/dzen2/application_launcher.sh 
-        herbstclient pad 0 $(herbstclient getenv pad_height) 0 260 0
+        #herbstclient spawn ~/.config/herbstluftwm/panels/dzen2/application_launcher.sh 
+        herbstclient pad 0 $(herbstclient getenv pad_height) 0  0 260
         herbstclient setenv conky on
         stalonetray --geometry 8x1+1710-10 --grow-gravity E --icon-gravity E -t  &
 fi

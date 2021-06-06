@@ -10,7 +10,7 @@
 # Initialise                                                                {{{
 #------------------------------------------------------------------------------
 hc() {
-    herbstclient "$@"
+	herbstclient "$@"
 }
 hc emit_hook reload
 #Max default
@@ -25,7 +25,7 @@ hc lock
 #hc spawn $bindir/dialoglistener
 #Keybindings
 hc keyunbind --all
-$configdir/keybinds 
+$configdir/keybinds
 
 #theming
 #$themedir/moontheme
@@ -34,10 +34,10 @@ $themedir/maintheme
 #$themedir/snowtheme
 #$themedir/snowtheme
 
-
 hc unrule -F
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
 hc rule focus=on # normally focus new clients
+hc set focus_follows_mouse 1
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
@@ -53,32 +53,32 @@ hc set default_frame_layout 1
 nmon=$(herbstclient list_monitors | wc -l)
 panel=$paneldir/dzen2/dzenpanel
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    "$panel" "$monitor" &
+for monitor in $(herbstclient list_monitors | cut -d: -f1); do
+	"$panel" "$monitor" &
 done
 
-if hc silent new_attr bool my_not_first_autostart ; then
-	hc setenv theme dark
-        hc setenv conky off
-	feh --bg-fill ~/Pictures/wallpapers/astornaut.jpg
-	cp "$HOME/.config/termite/nightconf" "$HOME/.config/termite/config"
-        #hc spawn ~/bin/album_daemon.sh
-	# startup apps
-	# run fancy glava thing
-	if [ "$nmon" -gt 1  ]; then
+if hc silent new_attr bool my_not_first_autostart; then
+        tint2 -c /home/david/.config/tint2/horizontal-text-only.tint2rc	hsetroot -solid "#585858"
+	pkill picom
+	picom --backend glx --vsync &
+	redshift -l 32.776665:-96.796989 -b 1:0.7 &
+	herbstclient spawn ~/bin/album_daemon.sh
+	hc setenv theme light
+	hc setenv conky off
+	cp "$HOME/.config/alacritty/day.yml" "$HOME/.config/alacritty/alacritty.yml"
+	if [ "$nmon" -gt 1 ]; then
 		bash ~/.screenlayout/2_monitor.sh
 		hc reload
-		glava &
 	fi
+        conky -c ~/.conky/conkyrc
 fi
 
 hc unlock
 
 # rules
 hc unlock
-
+hc set tree_style '╾│ ├└╼─┐'
 
 #hc reload
 
 #xset s off -dpms
-
