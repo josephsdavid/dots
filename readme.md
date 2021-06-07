@@ -6,3 +6,4 @@
 
 ![](plainSquirrelMonkey.png)
 ![](wretchedGoldenRetriever.png)
+![](acclaimedFrog.png)
