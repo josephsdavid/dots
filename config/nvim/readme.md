@@ -287,6 +287,9 @@ Things to try:
 * open the python repl with `:Repl`
 * Run the whole file with `gg,sG`
 * Run a chunk of code with `,sip`
+* Send a function with `,saf`, `,sif`
+* Send a class with `,sac`
+* Send a class with `,sic`
 * Run a line of code with `,ss`
 * Highlight a line of code in visual mode, and send it to the repl with `,s`
 * write some new code in the repl, and copy and paste it into your file!
