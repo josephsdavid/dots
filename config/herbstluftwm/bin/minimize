@@ -2,7 +2,7 @@
 
 dm() { ${dmenu_command:-dmenu} "$@" ;}
 function tag() {
-  herbstclient list_monitors | grep ‘[FOCUS]’ | cut -d’”’ -f2
+  herbstclient list_monitors | grep '[FOCUS]' | cut -d'"' -f2
 }
  
 tag="'"
@@ -21,10 +21,10 @@ case "$@" in
 
 esac
 function hidden_windows() {
-  for i in $(herbstclient attr clients | grep ‘0x’)
+  for i in $(herbstclient attr clients | grep '0x')
   do
     if herbstclient attr clients.$i | grep -q $tag; then
-      window=$(herbstclient attr clients.$i | grep ‘title’ | cut -d’”’ -f2)
+      window=$(herbstclient attr clients.$i | grep 'title' | cut -d'"' -f2)
       [[ $hidden ]] && hidden=$hidden\n$window || hidden=$window
     fi
   done
@@ -32,9 +32,9 @@ function hidden_windows() {
 }
 
 function unhide() {
-  for i in $(herbstclient attr clients | grep ‘0x’)
+  for i in $(herbstclient attr clients | grep '0x')
   do
-    if herbstclient attr clients.$i | grep -q “$@”; then
+    if herbstclient attr clients.$i | grep -q "$@"; then
       winid=${i%.}
       break
     fi
@@ -46,13 +46,13 @@ function unhide_window() {
   case $window in
     '[ all ]')    hide_window 0 ;;
     '[ last ]')   hide_window -1 ;;
-    *)            unhide “$window”
+    *)            unhide "$window"
                   release_ticktag $tag
                   ;;
   esac
 }
 
-tag=$(herbstclient list_monitors | grep '\[FOCUS\]' | cut -d'"' -f2)
+tag=$(herbstclient list_monitors | grep '[FOCUS]' | cut -d'"' -f2)
 case "$@" in
   +1)   herbstclient dump $tag || herbstclient add $tag
         herbstclient move $tag
@@ -67,11 +67,11 @@ case "$@" in
   0)    herbstclient dump $tag && herbstclient merge_tag $tag ;;
   *)    if hidden_windows; then
           if (( $(echo -e $hidden | wc -l) - 1 )); then
-            if window=$(echo -e $hidden | sort | sed “1i[ all ]\n[ last ]” | dm -p “Raise Window □ $tag”); then
+            if window=$(echo -e $hidden | sort | sed "1i[ all ]\n[ last ]" ); then
               unhide_window
             fi
           else
-            if window=$(echo -e $hidden | sort | dm -p “Raise Window □ $tag”); then
+            if window=$(echo -e $hidden | sort); then
               unhide_window
             fi
           fi

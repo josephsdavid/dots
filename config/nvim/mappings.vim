@@ -5,7 +5,7 @@ nmap <leader>w :w!<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
+map <leader>tm :tabmove 
 map <leader>t<leader> :tabnext<cr>
 let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
@@ -16,9 +16,8 @@ au TabLeave * let g:lasttab = tabpagenr()
 map <leader>b :call InsertLine()<CR>
 
 function! InsertLine()
-  let trace = expand("import pdb; pdb.set_trace()")
+  let trace = expand("import pdb; pdb.set_trace() #XXX: Breakpoint")
   execute "normal O".trace 
-  execute "normal o"
 endfunction
 
 
@@ -39,6 +38,8 @@ function! ToggleNetrw()
 	endif
 endfunction
 map <leader>nn :call ToggleNetrw()<cr>
+nnoremap <silent> _ <C-^>
+nmap <buffer> L <CR>:Lexplore<CR>
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
@@ -68,6 +69,10 @@ let g:zepl_default_maps = 0
 nmap <silent> <Leader>s <Plug>ReplSend_Motion
 vmap <silent> <Leader>s <Plug>ReplSend_Visual
 nmap <silent> <Leader>ss :ReplSend <cr>
+nmap <silent> <C-c> <Plug>ReplSend_Motion
+vmap <silent> <C-c> <Plug>ReplSend_Visual
+nmap <silent> <C-c>c :ReplSend <cr>
+nmap <silent> <C-c><C-c> :ReplSend <cr>
 
 tnoremap <Esc> <C-\><C-n>
 

@@ -12,4 +12,4 @@ else
         temp_char=' '
 fi
 
-temp_fg="#b2b2b2"
+#temp_fg="#b2b2b2"

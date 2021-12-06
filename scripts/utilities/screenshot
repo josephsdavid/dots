@@ -29,12 +29,11 @@ esac
 
 case "$action" in
 	Fullscreen)
+                sleep 0.2
 		scrot "$filepath"
-		paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
 		;;
 	Slop)
 		maim -s "$filepath"
-		paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
 
 		;;
 	Video)

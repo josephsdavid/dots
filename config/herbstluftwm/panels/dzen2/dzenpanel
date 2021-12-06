@@ -11,9 +11,9 @@ set_border() {
 
         if [[ $(echo "$layout"  | grep  'max') ]] && [ "$num_windows" -gt 1 ]; then
                 # bash ~/.config/herbstluftwm/bin/pulsar &
-                herbstclient attr theme.active.color "#0a0a0a"
+                herbstclient attr theme.active.color "#ff5a67"
         else
-                herbstclient attr theme.active.color "#b2b2b2"
+                herbstclient attr theme.active.color "#517f8d"
         fi
 }
 hc_quoted="$(quote "${herbstclient_command[@]:-herbstclient}")"
@@ -26,16 +26,16 @@ frame_layout() {
         num_windows="$(echo "$layout" | grep -o '0x' | wc -l)"
         case "$layout" in
                 *'max'*) 
-                        echo "^fg()Maximized ^fg(#b2b2b2)  ^fg(#b2b2b2)$num_windows"
+                        echo "^fg()Maximized ^fg($purple)  ^fg($purple)$num_windows"
                         ;;
                 *'vertical'*)
-                        echo "^fg()Vertical ^fg(#b2b2b2)ﮆ ^fg(#b2b2b2)$num_windows"
+                        echo "^fg()Vertical ^fg($purple)ﮆ ^fg($purple)$num_windows"
                         ;;
                 *'horizontal'*)
-                        echo "^fg()Horizontal ^fg(#b2b2b2)ﮇ ^fg(#b2b2b2)$num_windows"
+                        echo "^fg()Horizontal ^fg($purple)ﮇ ^fg($purple)$num_windows"
                         ;;
                 *'grid'*)
-                        echo "^fg()Grid ^fg(#b2b2b2)﩯 ^fg(#b2b2b2)$num_windows"
+                        echo "^fg()Grid ^fg($purple)﩯 ^fg($purple)$num_windows"
                         ;;
         esac
 }
@@ -46,6 +46,8 @@ selbg="$red" #'#d70000' #'#0087af'
 gray_col='#585858'
 emptybg="$blue"
 fg_col='#ffffff'
+bg_col="$yellow"
+other_col="$blue"
 source "$HOME/.config/herbstluftwm/panels/dzen2/get_funs.sh"
 monitor=${1:-0}
 geometry=($(hc monitor_rect "$monitor"))
@@ -133,18 +135,18 @@ fi
 		# and then waits for the next event to happen.
 
 		separator="^bg()^fg()"
-                left="^fn(Noto Sans Display Nerd Font-12)^bg()^fg(#b2b2b2)^ca(1,$menu)^fn(Noto Sans Display Nerd Font-18)  ^fn(Noto Sans Display Nerd Font-12)$separator^ca()"
+                left="^fn(Noto Sans Display Nerd Font-12)^bg()^fg($red)^ca(1,$menu)^fn(Noto Sans Display Nerd Font-18)  ^fn(Noto Sans Display Nerd Font-12)$separator^ca()"
                 filler=()
 		# draw tags
 		#draw_tags "${tags[@]}" "$selbg" "$selfg" "$emptybg" "$monitor"
 		for i in "${tags[@]:0:9}"; do
 			case ${i:0:1} in
 			'#')
-				left="$left^bg($fg_col)^fg($normal_bg)"
+				left="$left^bg($bg_col)^fg($normal_bg)"
                                 filler="${tag_names["${i:1}"]}"
 				;;
 			'+')
-				left="$left^bg(#484848)^fg($fg_col)"
+				left="$left^bg($blue)^fg($fg_col)"
                                 filler=${tag_names["${i:1}"]}
                                 #filler="${i:1}"
 				;;
@@ -215,7 +217,7 @@ fi
 				spotify=""
 			fi
 
-			battery="^fg($batfg)$bat_ico^fg($fg_col)$bat_num%"
+			battery="^fg($batfg)$bat_ico ^fg($fg_col)$bat_num%"
 			#ram="^fg($ram_fg)  ^fg($gray_col)$ram_num%^fg($cpu_fg)  ^fg($gray_col)$cpu_num%"
 			temp="^fg($temp_fg)  ^fg($fg_col)"$temp_num"糖"
 			;;

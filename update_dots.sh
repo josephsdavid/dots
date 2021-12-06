@@ -5,6 +5,11 @@ mkdir -p scripts
 mkdir -p bin
 cp -r $HOME/scripts/* scripts/
 cp -r $HOME/bin/* bin/
+cp -r ~/.bash-git-prompt .bash-git-prompt
+cp ~/.bashrc .bashrc
+cp ~/.bash_profile .bash_profile
+cp ~/.bashrc .bashrc
+cp -r ~/.screenlayout  .screenlayout
 
 cp /etc/nixos/configuration.nix nixos/configuration.nix
 cp -r $cfig/fish/* config/fish

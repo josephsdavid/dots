@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+case "$1" in
+        update|add|modify|u|a|m)
+                $EDITOR ~/todo.py
+                ;;
+        *)
+                todo.sh
+                ;;
+esac

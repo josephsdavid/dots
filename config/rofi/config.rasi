@@ -8,7 +8,7 @@ modi: "window,drun,ssh,combi";
 }
 
 * {
-	background-color:            #585858;
+	background-color:            #002635;
 	font: "Iosevka-Nerd-Font 13";
 	text-color:                  #ffffff;
 	selbg:                       #ffffff;
@@ -48,7 +48,7 @@ window {
 	orientation: horizontal;
 	children:	 [mainbox];
 	border: 8;
-	border-color: #b2b2b2;
+	border-color: #1c8db2;
 }
 
 mainbox {
@@ -66,7 +66,7 @@ textbox-prompt-colon {
 button { padding: 5px 2px; }
 
 button selected {
-	background-color: #b2b2b2;
+	background-color: #1c8db2;
 	text-color:       @winbg;
 }
 

@@ -8,7 +8,7 @@ get_temp() {
 	echo "$sum / $divisor" | bc
 }
 get_bat() {
-	acpi -b | awk '{print $3 $4}' | sed 's/,/ /g'
+	acpi -b | awk '{print $3 $4}' | sed 's/,/ /g' | grep -v " 0%"
 }
 
 get_ram() {

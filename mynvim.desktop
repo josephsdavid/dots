@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=Neovim
+Name=Nvim
 Exec=alacritty -e "nvim %F"
 Terminal=false
 Icon=gvim

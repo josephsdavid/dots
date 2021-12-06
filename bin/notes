@@ -8,5 +8,5 @@ fi
 
 name="$1"
 
-nvim "$notesdir/$name.md"
+nvim "$notesdir/$name.norg"
 

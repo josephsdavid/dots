@@ -18,13 +18,13 @@ fi
 bat_num=$(echo "$bat" | awk '{print $2}' | sed 's/%//g')
 
 if [ "$(echo "$bat_num < 25" | bc)" -eq 1 ]; then
-	batfg=""
+	batfg="$red"
 elif [ "$(echo "25 <= $bat_num && $bat_num < 60" | bc)" -eq 1 ]; then
 	batfg="$yellow"
 else
 	batfg="$green"
 fi
-batfg="#b2b2b2"
+#batfg="#b2b2b2"
 
 bat_percent=$((bat_num / 10)) #bash does integer division!!
 

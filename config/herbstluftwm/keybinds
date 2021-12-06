@@ -175,6 +175,7 @@ hc keybind $Mod-Control-m spawn "$bindir"/minimize  -1
 hc keybind $Mod-Shift-m   spawn  "$bindir"/minimize
 hc keybind $Mod-Alt-m spawn "$bindir"/minimize 0
 hc keybind $Mod-b spawn "$bindir"/maximize
+hc keybind $Mod-Alt-k spawn "$HOME/bin/keyb.sh"
 
 
 # Mice
