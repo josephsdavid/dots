@@ -63,11 +63,12 @@ draw_outline = false,-- amplifies text if yes
 default_outline_color = 'black',
 
 default_color = '#ffffff',-- Black
-color0 = '#b2b2b2',-- Grey
-color1 = '#0a0a0a',-- Red
-color2 = '#ffffff',-- Green
-color3 = '#b2b2b2',-- Yellow
-color4 = '#0a0a0a',-- Blue
+color0 = '#9cf087',-- Grey
+color1 = '#ff5a67',-- Red
+color2 = '#ffcc1b',-- Green
+color3 = '#7eb2dd',-- Yellow
+color4 = '#9cf087',-- Blue
+color5 = '#ffffff',-- Green
 --######################  End Colour Settings  ###
 --##  Borders Section  ###########################
 draw_borders = false,
@@ -129,8 +130,8 @@ update_interval = 1,
 conky.text = [[
 #${image ~/.conky/static/test.png -p 0,0}
 #${if_running spotify} true ${else} false ${endif}
-${voffset 225}${alignc}${font Open Sans Light:size=50}${color2}${time %I:%M %p}${font}${voffset -5}
-${voffset 5}${alignc}${font Open Sans Light:size=20}${color3}${time %A,}${color4} ${time %B%e}${font}${voffset -5}
+${voffset 225}${offset 10}${alignc}${font Open Sans Light:size=50}${color5}${time %I:%M %p}${font}${voffset -5}
+${voffset 5}${alignc}${offset 10}${font Open Sans Light:size=20}${color3}${time %A,}${color4} ${time %B %e}${font}${voffset -5}
 ${voffset 320}${color2}${alignc}${font Bebas Neue Bold:size=16}${exec ~/.conky/scripts/title.sh}\
 ${voffset 2}
 ${alignc}${font Bebas Neue Regular:size=16}${color0}${exec ~/.conky/scripts/artist.sh}\

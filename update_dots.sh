@@ -4,6 +4,7 @@ cfig=$HOME/.config
 mkdir -p scripts
 mkdir -p bin
 cp -r $HOME/scripts/* scripts/
+cp -r ~/.conky .conky
 cp -r $HOME/bin/* bin/
 cp -r ~/.bash-git-prompt .bash-git-prompt
 cp ~/.bashrc .bashrc
