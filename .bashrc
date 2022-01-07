@@ -1,6 +1,7 @@
 # .bashrc
 xset b off
 export EDITOR="/home/david/bin/nvim"
+export VISUAL="/home/david/bin/nvim"
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc

@@ -1,0 +1,11 @@
+@document.meta
+        title: todo
+        description: 
+        authors: david
+        categories: 
+        created: 2022-01-06
+        version: 0.0.9
+@end
+
+* to lua!
+  - [ ] pdb to snippet with luasnip or vsnip or w/e

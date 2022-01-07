@@ -31,8 +31,8 @@ modi: "window,drun,ssh,combi";
 	selected-active-background:  @actbg;
 	active-background:           @selbg;
 
-	line-margin:                 2;
-	line-padding:                2;
+	line-margin:                 0;
+	line-padding:                0;
 	separator-style:             "none";
 	hide-scrollbar:              "true";
 	margin:                      0;
@@ -47,7 +47,7 @@ window {
 	y-offset:0;
 	orientation: horizontal;
 	children:	 [mainbox];
-	border: 8;
+	border: 10;
 	border-color: #1c8db2;
 }
 

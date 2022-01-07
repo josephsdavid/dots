@@ -1,279 +1,145 @@
-"Plugin section
-call plug#begin('~/.data/plugged')
-Plug 'p00f/nvim-ts-rainbow'
-Plug 'neovim/nvim-lspconfig'
-Plug 'L3MON4D3/LuaSnip'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'itchyny/calendar.vim'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'nvim-neorg/neorg' 
-Plug 'nvim-lua/plenary.nvim'
-Plug 'Rigellute/rigel'
-Plug 'Yggdroot/hiPairs'
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug('NLKNguyen/papercolor-theme')
-Plug('wadackel/vim-dogrun')
-Plug('rakr/vim-one')
-Plug('ayu-theme/ayu-vim')
-Plug('direnv/direnv.vim')
-Plug 'mhinz/vim-startify'
-Plug 'axvr/zepl.vim'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-surround'
-Plug 'LnL7/vim-nix'
-Plug 'plasticboy/vim-markdown'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'neoclide/coc.nvim'
-Plug 'vimlab/split-term.vim'
-Plug 'Yggdroot/indentLine'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-call plug#end()
-
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
-
-function! GetNVimVersion()
-    redir => s
-    silent! version
-    redir END
-    return matchstr(s, 'NVIM v\zs[^\n]*')
-endfunction
-" begin of base.vim
-
-source ~/.config/nvim/base.vim
-source ~/.config/nvim/mappings.vim
-source ~/.config/nvim/coc_config.vim
-
-"set foldmethod=expr
-"set foldexpr=nvim_treesitter#foldexpr()
-"
-"
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-      enable = true,                    -- false will disable the whole extension
-      disable = { "c", "rust" },        -- list of language that will be disabled
-      custom_captures = {               -- mapping of user defined captures to highlight groups
-        -- ["foo.bar"] = "Identifier"   -- highlight own capture @foo.bar with highlight group "Identifier", see :h nvim-treesitter-query-extensions
-      },
-    },
-
-  rainbow = {
-    enable = true,
-    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    -- colors = {}, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
-  },
-    incremental_selection = {
-      enable = true,
-      disable = { "cpp", "lua" },
-      keymaps = {                       -- mappings for incremental selection (visual mappings)
-        init_selection = "gnn",         -- maps in normal mode to init the node/scope selection
-        node_incremental = "grn",       -- increment to the upper named parent
-        scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
-        node_decremental = "grm",       -- decrement to the previous node
-      }
-    },
-    refactor = {
-      highlight_definitions = {
-        enable = true
-      },
-      highlight_current_scope = {
-        enable = true
-      },
-      smart_rename = {
-        enable = true,
-        keymaps = {
-          smart_rename = "grr"          -- mapping to rename reference under cursor
-        }
-      },
-      navigation = {
-        enable = true,
-        keymaps = {
-          goto_definition = "gnd",      -- mapping to go to definition of symbol under cursor
-          list_definitions = "gnD"      -- mapping to list all definitions in current file
-        }
-      }
-    },
-    textobjects = { -- syntax-aware textobjects
-    enable = true,
-    disable = {},
-    keymaps = {
-        ["iL"] = { -- you can define your own textobjects directly here
-          python = "(function_definition) @function",
-          cpp = "(function_definition) @function",
-          c = "(function_definition) @function",
-          java = "(method_declaration) @function"
-        },
-        -- or you use the queries from supported languages with textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["aC"] = "@class.outer",
-        ["iC"] = "@class.inner",
-        ["ac"] = "@conditional.outer",
-        ["ic"] = "@conditional.inner",
-        ["ae"] = "@block.outer",
-        ["ie"] = "@block.inner",
-        ["al"] = "@loop.outer",
-        ["il"] = "@loop.inner",
-        ["is"] = "@statement.inner",
-        ["as"] = "@statement.outer",
-        ["ad"] = "@comment.outer",
-        ["am"] = "@call.outer",
-        ["im"] = "@call.inner"
-      }
-    },
-    ensure_installed = {"python", "norg", "c"} -- one of "all", "language", or a list of languages
-}
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-
-parser_configs.norg = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg",
-        files = { "src/parser.c", "src/scanner.cc" },
-        branch = "main"
-    },
-}
-    require('neorg').setup {
-        -- Tell Neorg what modules to load
-        load = {
-            ["core.keybinds"] = { -- Configure core.keybinds
-                               config = {
-                                   default_keybinds = true, -- Generate the default keybinds
-                                   neorg_leader = "<Leader>o" -- This is the default if unspecified
-                               }
-                           },
-            ["core.defaults"] = {}, -- Load all the default modules
-            ["core.norg.completion"] = { config = { engine = "nvim-cmp" } } ,-- We current support nvim-compe and nvim-cmp only
-            ["core.norg.concealer"] = {}, -- Allows for use of icons
-
-            ["core.norg.dirman"] = { -- Manage your directories with Neorg
-                config = {
-                    workspaces = {
-                        my_workspace = "~/neorg",
-                        notes = "~/notes",
-                        chess = "~/chess",
-                        workflow = "~/tasq/workflow/src/",
-                        structures = "~/data-structures",
-                        setpoints = "~/tasq/setpoint-rec/src/functions/next_setpoints"
-                    },
-            autodetect = true,
-                }
-            }
-        },
-            ["core.gtd.base"] = {
-               config = { -- Note that this table is optional and doesn't need to be provided
-                   -- Configuration here
-               }
-            },
-    }
-
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-      end,
-    },
-    mapping = {
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-      { name = 'path' },
-    })
-  })
-
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' , name = "neorg", name="path"}
-    }
-  })
-
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  ----require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
-  ----  capabilities = capabilities
-  ----}
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-local luasnip = require("luasnip")
-local cmp = require("cmp")
-
-cmp.setup({
-
-  -- ... Your other configuration ...
-
-  mapping = {
-
-    -- ... Your other mappings ...
-
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    -- ... Your other mappings ...
-  },
-
-  -- ... Your other configuration ...
-})
-
+require "user.options"
+require "user.plugins"
+require "user.lsp"
+require "user.colorscheme"
+require "user.treesitter"
+require "user.keybinds"
+require "user.cmp"
+require "user.telescope"
+require "user.toggleterm"
+require "user.comment"
+require "user.lualine"
 EOF
+
+
+augroup ProjectDrawer
+    autocmd!
+    autocmd VimEnter * if argc() == 0 | Explore! | endif
+augroup END
+
+autocmd BufEnter * if expand("%:p:h") !~ '*.norg' | silent! lcd %:p:h | endif
+
+set background=dark
+set termguicolors
+let g:hiPairs_enable_matchParen = 0
+let g:hiPairs_hl_matchPair = { 'term'    : 'underline,bold',
+            \                  'cterm'   : 'underline,bold',
+            \                  'ctermfg' : '0',
+            \                  'ctermbg' : '180',
+            \                  'gui'     : 'underline,bold,italic',
+            \                  'guifg'   : '#fb94ff',
+            \                  'guibg'   : 'NONE' }
+
+
+autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType r setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType rmd setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType yaml setlocal expandtab shiftwidth=2 softtabstop=2
+autocmd FileType lua setlocal expandtab shiftwidth=2 softtabstop=2
+
+" Run currently focused python script with F9
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+autocmd FileType markdown nnoremap <buffer> <F9> :exec '!md2pdf' shellescape(@%, 1)<cr>
+autocmd FileType yaml nnoremap <buffer> <F8> :exec '!cfn-lint' shellescape(@%, 1)<cr>
+" format code with f8
+autocmd FileType python nnoremap <buffer> <F8> :exec '!yapf -i' shellescape(@%, 1)<cr>
+autocmd FileType rust nnoremap <buffer> <F8> :exec '!cargo fmt'<cr>
+autocmd FileType sh nnoremap <buffer> <F8> :exec '!shfmt -w' shellescape(@%, 1)<cr>
+autocmd FileType nix nnoremap <buffer> <F8> :exec '!nixfmt' shellescape(@%, 1)<cr>
+
+
+filetype plugin on
+filetype indent on
+syntax enable
+set so=7
+
+hi Search cterm=underline,italic,bold ctermfg=250 ctermbg=NONE
+"hi Visual ctermfg=NONE ctermbg=253
+hi Visual ctermfg=250 ctermbg=NONE cterm=italic,bold,underline
+highlight CocFloating ctermbg=255
+highlight PmenuSel ctermbg=232  ctermfg=250 cterm=italic,bold
+highlight Pmenu ctermbg=lightgray  ctermfg=black
+highlight SignColumn ctermbg=0
+
+
+
+fun! CleanExtraSpaces()
+	let save_cursor = getpos(".")
+	let old_query = getreg('/')
+	silent! %s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfun
+if has("autocmd")
+	autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+endif
+
+
+runtime zepl/contrib/python.vim  " Enable the Python contrib module.
+runtime zepl/contrib/nvim_autoscroll_hack.vim
+
+let g:repl_config = {
+            \   'python': {
+            \     'cmd': 'python',
+            \     'formatter': function('zepl#contrib#python#formatter')
+            \   }
+            \ }
+tnoremap <Esc> <C-\><C-n>
+runtime zepl/contrib/nvim_autoscroll_hack.vim
+
+" pdb on leader b
+map <leader>b :call InsertLine()<CR>
+
+function! InsertLine()
+  let trace = expand("import pdb; pdb.set_trace() #XXX: Breakpoint")
+  execute "normal O".trace 
+endfunction
+
+let g:NetrwIsOpen=0
+function! ToggleNetrw()
+	if g:NetrwIsOpen
+		let i = bufnr("$")
+		while (i >= 1)
+			if (getbufvar(i, "&filetype") == "netrw")
+				silent exe "bwipeout " . i 
+			endif
+			let i-=1
+		endwhile
+		let g:NetrwIsOpen=0
+	else
+		let g:NetrwIsOpen=1
+		silent Lexplore
+	endif
+endfunction
+
+
+nnoremap <silent> _ <C-^>
+nmap <buffer> L <CR>:Lexplore<CR>
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 25
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+let g:zepl_default_maps = 0
+nmap <silent> <Leader>s <Plug>ReplSend_Motion
+vmap <silent> <Leader>s <Plug>ReplSend_Visual
+nmap <silent> <Leader>ss :ReplSend <cr>
+nmap <silent> <C-c> <Plug>ReplSend_Motion
+vmap <silent> <C-c> <Plug>ReplSend_Visual
+nmap <silent> <C-c>c :ReplSend <cr>
+nmap <silent> <C-c><C-c> :ReplSend <cr>
+let g:toggleterm_terminal_mapping = '<C-t>'
+
+
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+nmap <leader>w :w!<cr>
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove 
+map <leader>t<leader> :tabnext<cr>
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
