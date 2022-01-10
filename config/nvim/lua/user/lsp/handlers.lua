@@ -15,6 +15,7 @@ M.setup = function()
 
   local config = {
     -- disable virtual text
+    scope="cursor",
     virtual_text = false,
     -- show signs
     signs = {

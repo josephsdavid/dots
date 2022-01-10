@@ -32,8 +32,12 @@ require'nvim-treesitter.configs'.setup {
     -- ["foo.bar"] = "Identifier"  -- highlight own capture @foo.bar with highlight group "Identifier", see :h nvim-treesitter-query-extensions
    },
   },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
 
-  indent = { enable = true, disable = { "yaml" } },
+  indent = { enable = false, disable = { "yaml" } },
 
   incremental_selection = {
    enable = true,

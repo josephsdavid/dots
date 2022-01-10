@@ -1,9 +1,1 @@
-# Reproduce my computer!
-
-```bash
-./home-install.sh
-```
-
-![](plainSquirrelMonkey.png)
-![](wretchedGoldenRetriever.png)
-![](acclaimedFrog.png)
+# Read me one day

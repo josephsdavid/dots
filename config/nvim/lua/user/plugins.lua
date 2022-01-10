@@ -64,6 +64,33 @@ return packer.startup(function(use)
   use 'Yggdroot/indentLine'
   use "akinsho/toggleterm.nvim"
   use 'lewis6991/impatient.nvim'
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
+  use 'folke/lsp-colors.nvim'
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
+  -- ADD MORE STUFF HERE XXX
+  use {
+  'rmagatti/goto-preview',
+  config = function()
+    require('goto-preview').setup {}
+  end
+}
+  use {
+      "mcchrish/zenbones.nvim",
+      -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+      -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+      -- In Vim, compat mode is turned on as Lush only works in Neovim.
+      requires = "rktjmp/lush.nvim"
+  }
   use {
     "folke/which-key.nvim",
     config = function()
@@ -106,7 +133,7 @@ return packer.startup(function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
 
-  use { 
+  use {
     "nvim-neorg/neorg",
     config = function()
       require('neorg').setup {
@@ -116,6 +143,7 @@ return packer.startup(function(use)
           ["core.gtd.base"] = {},
           ["core.norg.completion"] = { config = { engine = "nvim-cmp" } } ,-- We current support nvim-compe and nvim-cmp only
           ["core.norg.concealer"] = {}, -- Allows for use of icons
+          ["core.norg.qol.toc"] = {},
           ["core.keybinds"] = { -- Configure core.keybinds
             config = {
               default_keybinds = true, -- Generate the default keybinds
@@ -133,7 +161,7 @@ return packer.startup(function(use)
                 rtd = "~/tasq/realtime-deferment/src/",
                 setpoints = "~/tasq/setpoint-rec/src/",
                 workflow = "~/tasq/workflow/src/"
-  
+
               },
           autodetect = true,
           autochdir = false,

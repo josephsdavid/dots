@@ -6,10 +6,12 @@ require "user.colorscheme"
 require "user.treesitter"
 require "user.keybinds"
 require "user.cmp"
+require "user.luasnip"
 require "user.telescope"
 require "user.toggleterm"
 require "user.comment"
 require "user.lualine"
+require "user.clickfree"
 EOF
 
 
@@ -72,7 +74,7 @@ fun! CleanExtraSpaces()
 	call setreg('/', old_query)
 endfun
 if has("autocmd")
-	autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+	autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee,*.lua :call CleanExtraSpaces()
 endif
 
 
@@ -83,7 +85,8 @@ let g:repl_config = {
             \   'python': {
             \     'cmd': 'python',
             \     'formatter': function('zepl#contrib#python#formatter')
-            \   }
+            \   },
+            \   'lua': { 'cmd': 'lua' },
             \ }
 tnoremap <Esc> <C-\><C-n>
 runtime zepl/contrib/nvim_autoscroll_hack.vim
@@ -92,7 +95,7 @@ runtime zepl/contrib/nvim_autoscroll_hack.vim
 map <leader>b :call InsertLine()<CR>
 
 function! InsertLine()
-  let trace = expand("import pdb; pdb.set_trace() #XXX: Breakpoint")
+  let trace = expand("__import__('pdb').set_trace()")
   execute "normal O".trace 
 endfunction
 
@@ -141,5 +144,11 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove 
 map <leader>t<leader> :tabnext<cr>
 let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+map <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
+
+nnoremap <leader>d <cmd>lua require('goto-preview').goto_preview_definition()<CR>
+nnoremap <leader>i <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
+nnoremap <leader>x <cmd>lua require('goto-preview').close_all_win()<CR>
+" Only set if you have telescope installed
+nnoremap <leader>r <cmd>lua require('goto-preview').goto_preview_references()<CR>
