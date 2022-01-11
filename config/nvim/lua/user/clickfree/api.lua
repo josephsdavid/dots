@@ -19,7 +19,7 @@ end
 
 
 local api = {
-  headers = {["Authorization"] =  "pk_37666252_S1UCT0Y8ICL1PL369HDKOO851S86EG7J"}, -- MOVE THIS SOMEWHERE ELSE
+  headers = {["Authorization"] =  "SECRET!"}, -- MOVE THIS SOMEWHERE ELSE
   base_url = "https://api.clickup.com/api/v2",
   format_url = function(s)
     return api.base_url .. "/" .. s
