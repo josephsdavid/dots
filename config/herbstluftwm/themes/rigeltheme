@@ -37,8 +37,8 @@ hc attr theme.outer_width 0
 hc attr theme.border_width 0
 hc attr theme.floating.border_width 2
 hc attr theme.floating.outer_width 0
-hc attr theme.active.color '#e67e80'
-hc attr theme.normal.color '#323d43'
+hc attr theme.active.color '#517f8d'
+hc attr theme.normal.color '#002535'
 
 hc set frame_padding 0
 hc set smart_window_surroundings 0
@@ -51,4 +51,5 @@ hc attr theme.padding_right 1
 hc attr theme.padding_bottom 1
 
 #feh --randomize --bg-fill ~/Pictures/Wallpapers/pa
+
 

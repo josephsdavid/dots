@@ -11,9 +11,9 @@ set_border() {
 
         if [[ $(echo "$layout"  | grep  'max') ]] && [ "$num_windows" -gt 1 ]; then
                 # bash ~/.config/herbstluftwm/bin/pulsar &
-                herbstclient attr theme.active.color "#ff5a67"
+                herbstclient attr theme.active.color "$orange"
         else
-                herbstclient attr theme.active.color "#517f8d"
+                herbstclient attr theme.active.color "$blue2"
         fi
 }
 hc_quoted="$(quote "${herbstclient_command[@]:-herbstclient}")"
@@ -43,9 +43,12 @@ frame_layout() {
 font="-*-fixed-*-*-*-*-12-*-*-*-*-*-*-*"
 bgcolor="$normal_bg" #'#000000'
 selbg="$red" #'#d70000' #'#0087af'
-gray_col='#585858'
+#gray_col='#585858'
+gray_col='#b9a476'
 emptybg="$blue"
-fg_col='#ffffff'
+#fg_col='#ffffff'
+
+fg_col='#d3c6aa'
 bg_col="$yellow"
 other_col="$blue"
 source "$HOME/.config/herbstluftwm/panels/dzen2/get_funs.sh"
@@ -108,7 +111,8 @@ fi
 
 	#mpc idleloop player &
 	while true; do
-		date +$'date\t^fg()%H:%M:%S^fg(#b2b2b2) %m-%d'
+    #b2b2b2
+		date +$'date\t^fg()%H:%M:%S^fg(#b9a476) %m-%d'
 		get_bat
 		get_temp
 		sleep 0.5 || break
@@ -146,7 +150,7 @@ fi
                                 filler="${tag_names["${i:1}"]}"
 				;;
 			'+')
-				left="$left^bg($blue)^fg($fg_col)"
+				left="$left^bg($blue)^fg($normal_bg)"
                                 filler=${tag_names["${i:1}"]}
                                 #filler="${i:1}"
 				;;
@@ -176,12 +180,12 @@ fi
 		menu="$HOME/scripts/menus/system-menu.sh"
                 #menu="$HOME/.config/herbstluftwm/panels/dzen2/menu.sh"
 		left="$left"
-                right="^bg()$battery$separator$temp$separator$date$spotify$separator"
+                right="^bg()$battery$separator$temp$separator$date$spotify "
 
-		right_text_only=$(echo -n "$right" | sed 's.\^[^(]*([^)]*)..g' | tr -c "[:alnum:]" " " | tr -s "|" )
+		right_text_only=$(echo -n "$right::::" | sed 's.\^[^(]*([^)]*)..g' | tr -c "[:alnum:]" " " | tr -s "|" )
 		# get width of right aligned text.. and add some space..
 
-		width=$($textwidth "$font" "$right_text_only    ")
+		width=$($textwidth "$font" "$right_text_only")
 		echo -n "$left^pa($(($panel_width - $width)))$right"
 		echo
 
@@ -204,15 +208,16 @@ fi
 
 		date)
 			#echo "resetting date" >&2
-			date="${cmd[@]:1}"
+			date="${cmd[@]:1}$separator"
 			. "$HOME/.config/herbstluftwm/panels/dzen2/battery.sh" "$(get_bat)"
 			#. "$HOME/.config/herbstluftwm/panels/dzen2/ram.sh" "$(get_ram)"
                         #. "$HOME/.config/herbstluftwm/panels/dzen2/cpu.sh" "$(get_cpu)"
 			. "$HOME/.config/herbstluftwm/panels/dzen2/temp.sh" "$(get_temp)"
 			if [ "$(playerctl -l | grep spotify)" ]; then
-				spotify=$(. "$HOME/.config/herbstluftwm/panels/dzen2/spotify.sh" "$fg_col" "#b2b2b2")
-				spotify="^fg(#b2b2b2)$spotify"
-				spotify="$separator^ca(2, playerctl -p spotify play-pause)^ca(3, playerctl -p spotify next)^ca(1, playerctl -p spotify previous)$spotify^ca()^ca()^ca()    "
+        #b2b2b2
+				spotify=$(. "$HOME/.config/herbstluftwm/panels/dzen2/spotify.sh" "$fg_col" "#b9a476")
+				spotify="^fg(#b9a476)$spotify"
+				spotify="^ca(2, playerctl -p spotify play-pause)^ca(3, playerctl -p spotify next)^ca(1, playerctl -p spotify previous)$spotify^ca()^ca()^ca()$separator"
 			else
 				spotify=""
 			fi

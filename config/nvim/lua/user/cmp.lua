@@ -8,6 +8,9 @@ if not snip_status_ok then
   return
 end
 
+
+local mappings = require("user.utils").mappings
+
 require("luasnip/loaders/from_vscode").lazy_load()
 
 local check_backspace = function()
@@ -52,13 +55,13 @@ cmp.setup {
     end,
   },
   mapping = {
-    ["<C-k>"] = cmp.mapping.select_prev_item(),
-		["<C-j>"] = cmp.mapping.select_next_item(),
-    ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-    ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ["<C-e>"] = cmp.mapping {
+    [mappings.C("k")] = cmp.mapping.select_prev_item(),
+		[mappings.C("j")] = cmp.mapping.select_next_item(),
+    [mappings.C("b")] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+    [mappings.C("f")] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+    [mappings.C("Space")] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+    [mappings.C("y")] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    [mappings.C("e")] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
@@ -81,7 +84,7 @@ cmp.setup {
       "i",
       "s",
     }),
-    ["<C-Tab>"] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -101,12 +104,13 @@ cmp.setup {
       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
       -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
       vim_item.menu = ({
-        nvim_lsp = "",--"[LSP]",
-        nvim_lua = "",--"[NVIM_LUA]",
-        luasnip = "",--"[Snippet]",
-        buffer = "",--"[Buffer]",
-        path = "",--"[Path]",
-        neorg = "",--"[NEORG]"
+        luasnip = "[SNIP]",
+        treesitter = "[TS]",
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[NVIM_LUA]",
+        path = "[PATH]",
+        neorg = "[NEORG]",
+        buffer = "[BUFF]",
       })[entry.source.name]
       return vim_item
     end,
@@ -114,10 +118,11 @@ cmp.setup {
   sources = {
     { name = "luasnip" },
     { name = "nvim_lsp" },
+    { name = 'treesitter' },
     { name = "nvim_lua" },
-    { name = "buffer" },
     { name = "path" },
     { name = "neorg" },
+    { name = "buffer" },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,

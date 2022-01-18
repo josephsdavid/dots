@@ -3,8 +3,11 @@ if not status_ok then
   return
 end
 
+local mappings = require'user.utils'.mappings
+
 
 local actions = require "telescope.actions"
+
 
 telescope.setup {
   defaults = {
@@ -87,6 +90,38 @@ telescope.setup {
     -- Now the picker_config_key will be applied every time you call this
     -- builtin picker
   },
-  extensions = {},
+  extensions = {
+    'project',
+    frecency = {
+      show_scores = false,
+      show_unindexed = true,
+      ignore_patterns = {"*.git/*", "*/tmp/*", "*.html"},
+      disable_devicons = false,
+      workspaces = {
+        ["conf"]    = "/home/david/.config",
+        ["data"]    = "/home/david/.local/share",
+        ["tasq"] = "/home/david/tasq",
+        ["setpoints"] = "/home/david/tasq/setpoint-rec/",
+        ["rtd"] = "/home/david/tasq/realtime-deferment/",
+        ["libtasq"] = "/home/david/tasq/libtasq/",
+        ["notes"] = "/home/david/neorg/",
+      }
+    }
+  },
 }
 
+telescope.load_extension('project')
+telescope.load_extension('frecency')
+telescope.load_extension("emoji")
+
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+keymap("n", mappings.telescopeleader("f"), "<cmd>Telescope find_files<cr>", opts)
+keymap("n", mappings.telescopeleader("g") ,"<cmd>Telescope live_grep<cr>", opts)
+keymap("n", mappings.telescopeleader("b") ,"<cmd>Telescope buffers<cr>", opts)
+keymap("n", mappings.telescopeleader("h") ,"<cmd>Telescope help_tags<cr>", opts)
+keymap("n", mappings.telescopeleader("a") ,"<cmd>Telescope aerial<cr>", opts)
+keymap("n", mappings.telescopeleader("p") ,"<cmd>Telescope project<cr>", opts)
+keymap("n", mappings.telescopeleader(mappings.leader("")) ,"<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>", opts)
+keymap("n", mappings.telescopeleader("e") ,"<Cmd>Telescope emoji<CR>", opts)

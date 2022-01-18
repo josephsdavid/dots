@@ -8,13 +8,13 @@ modi: "window,drun,ssh,combi";
 }
 
 * {
-	background-color:            #002635;
+	background-color:            #2b3339;
 	font: "Iosevka-Nerd-Font 13";
-	text-color:                  #ffffff;
-	selbg:                       #ffffff;
-	actbg:                       #ffffff;
-	urgbg:                       #e53935;
-	winbg:			     #000000;
+	text-color:                  #d3c6aa;
+	selbg:                       #d3c6aa;
+	actbg:                       #d3c6aa;
+	urgbg:                       #a7c080;
+	winbg:			                 #000000;
 
 	selected-normal-foreground:  @winbg;
 	normal-foreground:           @text-color;
@@ -42,12 +42,12 @@ modi: "window,drun,ssh,combi";
 window {
 	location:	 center;
 	anchor:		 center;
-	height:		 50%;
-	width:		 50%;
+	height:		 60%;
+	width:		 60%;
 	y-offset:0;
 	orientation: horizontal;
 	children:	 [mainbox];
-	border: 10;
+	border: 0;
 	border-color: #1c8db2;
 }
 
@@ -66,7 +66,7 @@ textbox-prompt-colon {
 button { padding: 5px 2px; }
 
 button selected {
-	background-color: #1c8db2;
+	background-color: #a7c080;
 	text-color:       @winbg;
 }
 

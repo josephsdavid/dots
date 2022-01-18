@@ -63,12 +63,12 @@ draw_outline = false,-- amplifies text if yes
 default_outline_color = 'black',
 
 default_color = '#ffffff',-- Black
-color0 = '#9cf087',-- Grey
-color1 = '#ff5a67',-- Red
-color2 = '#ffcc1b',-- Green
-color3 = '#7eb2dd',-- Yellow
-color4 = '#9cf087',-- Blue
-color5 = '#ffffff',-- Green
+color0 = '#a7c080',-- Grey
+color1 = '#e67e80',-- Red
+color2 = '#dbbc7f',-- Green
+color3 = '#7fbbb3',-- Yellow
+color4 = '#a7c080',-- Blue
+color5 = '#d3c6aa',-- Green
 --######################  End Colour Settings  ###
 --##  Borders Section  ###########################
 draw_borders = false,

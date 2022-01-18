@@ -26,7 +26,7 @@
   "link": {
     "description": "links",
     "prefix": "link",
-    "body": ["[${1:description}](${2:object})"]
+    "body": ["{${2:object}}[${1:description}]"]
   },
 
   "data": {
@@ -69,5 +69,59 @@
     "description": "variable",
     "prefix": "var",
     "body": ["=${1:variable}="]
+  },
+
+  "basic/note": {
+    "prefix": "note",
+    "body": [
+      "* ${1:TITLE}",
+      "\t^^ References",
+      "\t^^ ",
+      "\t^^ Categories",
+      "\t^^ "
+    ]
+  },
+
+  "permanent/note": {
+    "prefix": "permanent",
+    "body": [
+      "* ${1:TITLE}",
+      "\t^^ References",
+      "\t^^ ",
+      "\t^^ Categories",
+      "\t^^"
+    ]
+  },
+
+  "fleeting/note": {
+    "prefix": "fleeting",
+    "body": [
+      "* ${1:TITLE} (fleeting)",
+      "\t^^ References",
+      "\t^^"
+    ]
+  },
+
+  "reference/note": {
+    "prefix": "reference",
+    "body": [
+      "* ${1:TITLE} (reference)",
+      "\t^^ References",
+      "\t^^"
+    ]
+  },
+
+  "category": {
+    "prefix": "category",
+    "body": [
+      "* ${1:TITLE}"
+    ]
+  },
+  "project": {
+    "prefix": "project",
+
+    "body": [
+      "* ${1:PROJECT NAME}"
+    ]
   }
 }

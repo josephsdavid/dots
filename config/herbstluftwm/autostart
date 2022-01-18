@@ -58,14 +58,14 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1); do
 done
 
 if hc silent new_attr bool my_not_first_autostart; then
-        hsetroot -solid '#002535'
+        hsetroot -solid '#323d43'
 	pkill picom
 	picom --backend glx --vsync &
 	redshift -l 32.776665:-96.796989 -b 1:0.7 &
 	herbstclient spawn ~/bin/album_daemon.sh
 	hc setenv theme dark
 	hc setenv conky off
-	cp "/home/david/.config/alacritty/rigel.yml" "$HOME/.config/alacritty/alacritty.yml"
+	cp "/home/david/.config/alacritty/everforest.yml" "$HOME/.config/alacritty/alacritty.yml"
 	if [ "$nmon" -gt 1 ]; then
 		bash ~/.screenlayout/2_monitor.sh
 		hc reload

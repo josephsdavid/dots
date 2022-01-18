@@ -123,5 +123,22 @@
     "prefix": "twhere",
     "body": "${1:ARR}[np.where((${1:ARR}.time >= ${2:start}) & (${1:ARR}.time <= ${3:end}))]$0",
     "description": "np.where between two times"
+  },
+  "pickle/dump": {
+    "prefix": "pdump",
+    "body": [
+      "with open('${1:filename}','${2:wb}') as f:",
+      "\tpickle.dump(${3:obj}, f)"
+    ],
+    "description": "Pickle dump"
+  },
+
+  "pickle/load": {
+    "prefix": "pload",
+    "body": [
+      "with open('${1:filename}','${2:rb}') as f:",
+      "\t${3:obj} = pickle.load(f)"
+    ],
+    "description": "Pickle dump"
   }
 }

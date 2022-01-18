@@ -61,6 +61,13 @@ map <M-k> <C-W>k
 map <M-h> <C-W>h
 map <M-l> <C-W>l
 
+
+tnoremap <Esc> <C-\><C-n>
+tnoremap <M-j> <C-\><C-n><C-W>j
+tnoremap <M-k> <C-\><C-n><C-W>k
+tnoremap <M-h> <C-\><C-n><C-W>h
+tnoremap <M-l> <C-\><C-n><C-W>l
+
 " easy searching
 map <space> /
 map <c-space> ?
@@ -76,13 +83,6 @@ vmap <silent> <C-c> <Plug>ReplSend_Visual
 nmap <silent> <C-c>c :ReplSend <cr>
 nmap <silent> <C-c><C-c> :ReplSend <cr>
 
-tnoremap <Esc> <C-\><C-n>
-
-
-tnoremap <M-j> <C-\><C-n><C-W>j
-tnoremap <M-k> <C-\><C-n><C-W>k
-tnoremap <M-h> <C-\><C-n><C-W>h
-tnoremap <M-l> <C-\><C-n><C-W>l
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
