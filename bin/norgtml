@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 filename=$1
 name="${filename%.*}"
-norgdoc "$filename" | pandoc -f json -o "$name".html --metadata title="$name" --template clean_menu.html
+neorg-haskell-parser "$filename" | pandoc -f json -o "$name".html --metadata title="$name" --template clean_menu.html

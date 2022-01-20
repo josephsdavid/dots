@@ -31,9 +31,9 @@ comment.setup {
   ---@type table
   opleader = {
     ---Line-comment keymap
-    line = mappings.commentleader("c"),
+    line = mappings.vcommentleader("c"),
     ---Block-comment keymap
-    block = mappings.commentleader("b"),
+    block = mappings.vcommentleader("b"),
   },
 
   ---LHS of extra mappings

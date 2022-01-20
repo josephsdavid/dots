@@ -1,6 +1,7 @@
 local M = {}
 local mappings = require("user/utils").mappings
 
+
 -- TODO: backfill this to template
 M.setup = function()
 	local signs = {
@@ -17,11 +18,11 @@ M.setup = function()
 	local config = {
 		-- disable virtual text
 		scope = "cursor",
-		virtual_text = false,
-		--[[ {
+		virtual_text = true,
+		{
       prefix = "»",
       spacing = 4,
-    }, ]]
+    },
 		-- show signs
 		signs = {
 			active = signs,
@@ -100,11 +101,12 @@ local function lsp_keymaps(bufnr)
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 end
 
+
+
 M.on_attach = function(client, bufnr)
-  vim.api.nvim_command("DirenvExport")
   vim.o.updatetime = 250
   -- vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
-  -- vim.cmd [[autocmd CursorHoldI * lua vim.lsp.buf.hover(nil, {focus=false})]]
+  vim.cmd [[autocmd CursorHoldI * lua vim.lsp.buf.hover(nil, {focus=false})]]
 	if client.name == "tsserver" then
 		client.resolved_capabilities.document_formatting = false
 	end

@@ -78,6 +78,7 @@ return packer.startup(function(use)
 	use({ "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" })
 	use({ "ray-x/lsp_signature.nvim" })
 	use("ray-x/cmp-treesitter")
+  use 'arkav/lualine-lsp-progress'
 	use({
 		"danymat/neogen",
 		config = function()
@@ -98,7 +99,6 @@ return packer.startup(function(use)
 	use("jbyuki/dash.nvim")
 	use("romgrk/nvim-treesitter-context")
 	use("RRethy/nvim-treesitter-textsubjects")
-	use("stevearc/aerial.nvim")
 	use({
 		"lewis6991/spellsitter.nvim",
 	})
@@ -114,8 +114,28 @@ return packer.startup(function(use)
     end
   }
   use 'xiyaowong/telescope-emoji.nvim'
+-- Lua
+
+  use "mfussenegger/nvim-ts-hint-textobject"
+
+
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+      require('nvim-autopairs').setup({
+        disable_filetype = { "TelescopePrompt" , "vim" },
+        check_ts = true
+      })
+    end,
+	})
+
 	-- HACK
 	-- ADD MORE STUFF HERE
+-- Lua
+  use {
+    "SmiteshP/nvim-gps",
+    wants = "nvim-treesitter/nvim-treesitter"
+  }
 	use({
 		"phaazon/hop.nvim",
 		branch = "v1", -- optional but strongly recommended

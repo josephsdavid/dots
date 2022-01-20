@@ -104,6 +104,9 @@ keymap("n", mappings.hopleader("L"), ":HopLineStart<CR>", opts)
 keymap("n", mappings.hopleader("s"), ":HopChar2<CR>", opts)
 keymap("n", mappings.hopleader("c"), ":HopChar1<CR>", opts)
 keymap("n", mappings.hopleader("p"), ":HopPattern<CR>", opts)
+keymap("o", mappings.hopleader("t"), ":<C-U>lua require('tsht').nodes()<CR>", opts)
+keymap("n", mappings.hopleader("t"), ":lua require('tsht').nodes()<CR>", opts)
+keymap("v", mappings.hopleader("t"), ":lua require('tsht').nodes()<CR>", opts)
 
 -- zepl stuff
 keymap("n", mappings.zeplleader(""), "<Plug>ReplSend_Motion", zepl_opts)

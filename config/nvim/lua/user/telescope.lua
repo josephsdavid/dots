@@ -121,7 +121,6 @@ keymap("n", mappings.telescopeleader("f"), "<cmd>Telescope find_files<cr>", opts
 keymap("n", mappings.telescopeleader("g") ,"<cmd>Telescope live_grep<cr>", opts)
 keymap("n", mappings.telescopeleader("b") ,"<cmd>Telescope buffers<cr>", opts)
 keymap("n", mappings.telescopeleader("h") ,"<cmd>Telescope help_tags<cr>", opts)
-keymap("n", mappings.telescopeleader("a") ,"<cmd>Telescope aerial<cr>", opts)
 keymap("n", mappings.telescopeleader("p") ,"<cmd>Telescope project<cr>", opts)
 keymap("n", mappings.telescopeleader(mappings.leader("")) ,"<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>", opts)
 keymap("n", mappings.telescopeleader("e") ,"<Cmd>Telescope emoji<CR>", opts)

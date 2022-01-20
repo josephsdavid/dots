@@ -139,17 +139,17 @@ require'nvim-treesitter.configs'.setup {
    smart_rename = {
     enable = true,
     keymaps = {
-     smart_rename = mappings.refactorleader("r")     -- mapping to rename reference under cursor
+     smart_rename = mappings.refactorleader("n")     -- mapping to rename reference under cursor
     }
    },
    navigation = { -- use lsp
-    enable = false,
+    enable = true,
     keymaps = {
-        goto_definition = "gnd",
-        list_definitions = "gnD",
+        goto_definition = mappings.refactorleader("d"),
+        list_definitions = mappings.refactorleader("D"),
         list_definitions_toc = "gO",
-        goto_next_usage = "<a-*>",
-        goto_previous_usage = "<a-#>",
+        goto_next_usage = "<a-'>",
+        goto_previous_usage = "<a-;>",
     }
    }
   },
@@ -162,7 +162,7 @@ require'nvim-treesitter.configs'.setup {
     },
   },
   textobjects = textob,
-  ensure_installed = {"python", "norg", "c", "norg_meta", "norg_table", "lua"} -- one of "all", "language", or a list of languages
+  ensure_installed = {"python", "norg", "c", "norg_meta", "norg_table", "lua", "yaml", "bash", "rust", "dockerfile", "vim"} -- one of "all", "language", or a list of languages
 }
 
 require'treesitter-context'.setup{

@@ -35,8 +35,8 @@ alias ls="ls --color"
 alias ytop="ytop -p -b -s"
 . "$HOME/.cargo/env"
 
-if [ -f ~/bin/sensible.bash ]; then
-   source ~/bin/sensible.bash
+if [ -f /home/david/bin/sensible.bash ]; then
+   source /home/david/bin/sensible.bash
 fi
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     GIT_PROMPT_ONLY_IN_REPO=0
@@ -44,6 +44,6 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     GIT_PROMPT_THEME=Minimal
 fi
 # Use bash-completion, if available
-python ~/todo.py
+# python ~/todo.py
 
 eval "$(direnv hook bash)"
