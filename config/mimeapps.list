@@ -25,4 +25,4 @@ application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 image/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
-application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;org.pwmt.zathura-pdf-poppler.desktop;
+application/pdf=libreoffice-startcenter.desktop;org.pwmt.zathura-pdf-mupdf.desktop;org.pwmt.zathura-pdf-poppler.desktop;

@@ -2,7 +2,7 @@
 Icon="/PATH/TO/ICON_ON"
 Icoff="/PATH_TO_ICON_OFF"
 fconfig=".keyboard"
-id=15
+id=3
 
 if [ ! -f $fconfig ];
     then

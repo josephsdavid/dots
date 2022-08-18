@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 in="$1"
 out="$(echo $in | awk -F '.' '{print $1}')"
-gcc  -o "$out" "$in"
+g++  -o "$out".o "$in"
 echo "testing!!"
-./"$out" || exit
+./"$out".o || exit
 echo "passing!!"
 

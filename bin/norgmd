@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+filename=$1
+name="${filename%.*}"
+norgdoc "$filename" | pandoc -f json -o "$name".md
+

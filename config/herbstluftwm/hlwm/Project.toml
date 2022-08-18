@@ -1,0 +1,8 @@
+name = "hlwm"
+uuid = "b692df74-6bda-4de2-8d1e-9731a67a26f9"
+authors = ["josephsdavid <josephsd@smu.edu>"]
+version = "0.1.0"
+
+[deps]
+FilePathsBase = "48062228-2e41-5def-b9a4-89aafe57970f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

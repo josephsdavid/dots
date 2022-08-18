@@ -1,0 +1,9 @@
+#!/usr/bin/env julia --project=~/.julia/environments/nvim-null-ls
+
+using JET
+
+filename = ARGS[1]
+
+r = report_file(filename, analyze_from_definitions = true, annotate_types = true, toplevel_logger = stdout)
+
+println(r)

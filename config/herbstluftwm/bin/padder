@@ -18,7 +18,7 @@ pad() {
 
 
 if [ $(hc list_monitors | wc -l) -gt 1 ]; then
-	npad=120
+	npad=60
 else
 	npad=30
 fi

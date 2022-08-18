@@ -129,12 +129,12 @@ update_interval = 1,
 
 conky.text = [[
 #${image ~/.conky/static/test.png -p 0,0}
-#${if_running spotify} true ${else} false ${endif}
+#${if_running spotify} false ${else} false ${endif}
 ${voffset 225}${offset 10}${alignc}${font Open Sans Light:size=50}${color5}${time %I:%M %p}${font}${voffset -5}
 ${voffset 5}${alignc}${offset 10}${font Open Sans Light:size=20}${color3}${time %A,}${color4} ${time %B %e}${font}${voffset -5}
-${voffset 320}${color2}${alignc}${font Bebas Neue Bold:size=16}${exec ~/.conky/scripts/title.sh}\
-${voffset 2}
-${alignc}${font Bebas Neue Regular:size=16}${color0}${exec ~/.conky/scripts/artist.sh}\
-${voffset 0}
-${alignc}${font Bebas Neue Bold:size=14}${color1}${exec ~/.conky/scripts/album.sh}
+#${voffset 320}${color2}${alignc}${font Bebas Neue Bold:size=16}${exec ~/.conky/scripts/title.sh}\
+#${voffset 2}
+#${alignc}${font Bebas Neue Regular:size=16}${color0}${exec ~/.conky/scripts/artist.sh}\
+#${voffset 0}
+#${alignc}${font Bebas Neue Bold:size=14}${color1}${exec ~/.conky/scripts/album.sh}
 ]];

@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#! nix-shell -p scid -i bash
+#!/usr/bin/env bash
 ZIPDIR="/home/david/Downloads"
 DBDIR="./db"
 IDFILE="${ZIPDIR}/.last_id"
@@ -19,7 +18,7 @@ if [ ! -d $DBDIR ]; then
 fi
 
 ## the first known issue of TWIC
-i=210
+i=920
 ## a very high number which will not be reached
 last_i=$((9999))
 

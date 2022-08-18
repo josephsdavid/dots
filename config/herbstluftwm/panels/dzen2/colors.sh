@@ -36,3 +36,4 @@ blue2='#e67e80'
 orange="#ff9e64"
 #normal_bg="#240e28"
 normal_bg="#323d43"
+normal_bg="#2b3339"

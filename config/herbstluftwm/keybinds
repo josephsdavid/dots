@@ -65,7 +65,7 @@ hc keybind $Mod-Shift-w spawn "$HOME/scripts/utilities/weather"
 hc keybind $Mod-Shift-b spawn "$HOME/scripts/utilities/battery_notify.sh"
 hc keybind $Mod-Shift-Return spawn rofi  -show Files -modi Files:/home/david/scripts/utilities/rofi-file-browser
 
-hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # use your $TERMINAL with xterm as fallback
+hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # -h -e "vim -c 'term'"# use your $TERMINAL with xterm as fallback
 #hc keybind $Mod-Return spawn alacritty -c ~/.config/alacritty/snowconf
 #hc keybind $Mod-Return spawn alacritty -c ~/.config/alacritty/paperconf
 #hc keybind $Mod-Return spawn xterm

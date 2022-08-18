@@ -58,11 +58,13 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1); do
 done
 
 if hc silent new_attr bool my_not_first_autostart; then
-        hsetroot -solid '#323d43'
-	pkill picom
-	picom --backend glx --vsync &
+        # hsetroot -solid '#323d43'
+  setxkbmap -option ctrl:nocaps
+  feh --bg-fill ~/Pictures/wallpapers/forest.jpg
+  pkill picom
+	picom --experimental-backends --backend glx --vsync  --corner-radius 8 --round-borders 100&#  --blur-method dual_kawase --blur-strength 5& 
 	redshift -l 32.776665:-96.796989 -b 1:0.7 &
-	herbstclient spawn ~/bin/album_daemon.sh
+	# herbstclient spawn ~/bin/album_daemon.sh
 	hc setenv theme dark
 	hc setenv conky off
 	cp "/home/david/.config/alacritty/everforest.yml" "$HOME/.config/alacritty/alacritty.yml"
