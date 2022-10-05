@@ -59,6 +59,7 @@ done
 
 if hc silent new_attr bool my_not_first_autostart; then
         # hsetroot -solid '#323d43'
+  herbstclient spawn springer watch
   setxkbmap -option ctrl:nocaps
   feh --bg-fill ~/Pictures/wallpapers/forest.jpg
   pkill picom
@@ -67,7 +68,8 @@ if hc silent new_attr bool my_not_first_autostart; then
 	# herbstclient spawn ~/bin/album_daemon.sh
 	hc setenv theme dark
 	hc setenv conky off
-	cp "/home/david/.config/alacritty/everforest.yml" "$HOME/.config/alacritty/alacritty.yml"
+    hc spawn "$HOME/scripts/utilities/day-night.sh"
+	# cp "/home/david/.config/alacritty/everforest.yml" "$HOME/.config/alacritty/alacritty.yml"
 	if [ "$nmon" -gt 1 ]; then
 		bash ~/.screenlayout/2_monitor.sh
 		hc reload

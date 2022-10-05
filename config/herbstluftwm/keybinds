@@ -203,3 +203,7 @@ hc keybind $Mod-Shift-space spawn "$HOME/scripts/utilities/day-night.sh"
 # ricing
 hc keybind $Mod-g spawn "$bindir/padder"
 hc keybind $Mod-Shift-g cycle_value frame_gap 0 4 16 32 48 64
+
+# jumplist
+hc keybind $Mod-Ctrl-o emit_hook jump_prev
+hc keybind $Mod-Ctrl-i emit_hook jump_next

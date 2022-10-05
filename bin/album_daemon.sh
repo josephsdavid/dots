@@ -9,14 +9,14 @@ update() {
                 if [ "$current" != "$prev" ]; then
                         bash ~/bin/get_album_art.sh
                         echo "$current" > "$storage"
-                        hsetroot -solid '#323d43' -center ~/.cache/usr/album_art.png
+                        hsetroot -solid '#282c34' -center ~/.cache/usr/album_art.png
                 fi
         else
                 prev="$(cat $storage)"
                 current="no music"
                 if [ "$current" != "$prev" ]; then
                         echo "$current" > "$storage"
-                        hsetroot -solid '#323d43'
+                        hsetroot -solid '#282c34'
                 fi
         fi
 }

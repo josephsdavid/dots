@@ -19,21 +19,10 @@ M.setbuffer = M.setkey("b")
 
 M.setters = { opt = M.setopt, global = M.setglobal, buffer = M.setbuffer }
 
-local ctime = os.date("*t")
-if ctime.hour < 21 and ctime.hour >= 8 then
-    M.setopt("background", "light")
-    vim.cmd [[colorscheme doom-one]]
-    vim.cmd [[hi macro gui=bold]]
-else
-    M.setopt("background", "dark")
-
-    -- vim.cmd[[hi function gui=bold]]
-    vim.cmd [[colorscheme doom-one]]
-    vim.cmd [[hi macro gui=bold]]
-
-
-
-end
+M.setopt("background", "light")
+vim.cmd[[hi function gui=bold]]
+vim.cmd [[colorscheme doom-one]]
+vim.cmd [[hi macro gui=bold]]
 M.setopt("laststatus", 3)
 M.setopt("foldlevel", 999)
 M.setopt("backup", false) -- creates a backup file)
@@ -58,7 +47,7 @@ M.setopt("swapfile", true)
 M.setopt("termguicolors", true)
 M.setopt("timeoutlen", 1000)
 M.setopt("undofile", true)
-M.setopt("lazyredraw", true)
+M.setopt("lazyredraw")
 M.setopt("updatetime", 250)
 M.setopt("writebackup", false)
 M.setopt("expandtab", true)
@@ -71,11 +60,12 @@ M.setopt("numberwidth", 4)
 M.setopt("signcolumn", "yes")
 M.setopt("wrap", false)
 M.setopt("hidden", true)
-M.setopt("scrolloff", 8)
+M.setopt("scrolloff", 12)
+-- M.setopt("scrolloff", 999)
 M.setopt("sidescrolloff", 8)
 M.setopt("guifont", "monospace:h17")
 M.setopt("autoread", true)
-M.setopt("so", 7)
+-- M.setopt("so", 7)
 vim.opt.shortmess:append("c")
 
 
@@ -105,15 +95,16 @@ M.setglobal("hiPairs_hl_matchPair",
         gui = 'underline,bold,italic', guifg = '#fb94ff', guibg = 'NONE' })
 M.setglobal("send_disable_mapping", 1)
 
-M.setglobal("conjure#mapping#doc_word", "<LocalLeader>K")
-M.setglobal("JuliaFormatter_always_launch_server", 1)
+-- M.setglobal("conjure#mapping#doc_word", "<LocalLeader>K")
+-- M.setglobal("JuliaFormatter_always_launch_server", 1)
+-- M.setglobal("conjure#filetype", {"clojure", "fennel", "janet", "racket", "scheme"})
 -- M.setglobaldelete_replaced_bufferdelete_replaced_buffer("unception_open_buffer_in_new_tab", true)
 M.setglobal("asterisk#keeppos", 1)
 M.setglobal("parinfer_filetypes", {
     "clojure", "scheme", "lisp", "racket",
     "hy", "fennel", "janet", "carp",
-    "wast", "yuck", "jl", "julia"
+    "wast", "yuck"
 })
-
+M.setglobal("parinfer_no_maps", true)
 
 return M

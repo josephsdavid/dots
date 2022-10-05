@@ -10,5 +10,7 @@ Bindings.setup(Bindings.config)
 require "config.autocmds"
 require "config.snippets"
 require "config.telescope"
-require "config.git"
 require "config.norg"
+require "config.lines"
+-- require "config.namespaces"
+

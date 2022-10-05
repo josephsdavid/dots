@@ -9,14 +9,14 @@ hc() {
 theme=$(hc getenv theme)
 
 if [ "$theme" != "dark" ]; then
-	cp "$term_dir/everforest.yml" "$term_dir/alacritty.yml"
+	cp "$term_dir/all.yml" "$term_dir/alacritty.yml"
+    echo "colors: *doom_dark" >> "$term_dir/alacritty.yml"
 	#feh --bg-fill "/home/david/Pictures/wallpapers/bridge.jpg"
-	#feh --bg-fill "$HOME/Pictures/hank.jpg"
 	hc setenv theme dark
 else
-	cp "$term_dir/everforest.yml" "$term_dir/alacritty.yml"
-#	feh --bg-fill "$HOME/Pictures/hank.jpg"
-	#feh --bg-fill "$HOME/Pictures/wallpapers/hank.jpg"
+	cp "$term_dir/all.yml" "$term_dir/alacritty.yml"
+    echo "colors: *doom_light" >> "$term_dir/alacritty.yml"
+	#feh --bg-fill "$HOME/Pictures/wallpapers/frog.jpg"
 	hc setenv theme light
 fi
 

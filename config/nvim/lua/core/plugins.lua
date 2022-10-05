@@ -1,5 +1,22 @@
 local fn = vim.fn
 
+local function getHostname()
+    local f = io.popen("/bin/hostname")
+    local hostname = f:read("*a") or ""
+    f:close()
+    hostname = string.gsub(hostname, "\n$", "")
+    return hostname
+end
+
+local function host_is_not(s)
+    local hostname = string.lower(getHostname())
+    if string.find(hostname, s) then
+        return false
+    else
+        return true
+    end
+end
+
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     PACKER_BOOTSTRAP = fn.system {
@@ -47,7 +64,6 @@ return packer.startup({ function(use)
         end
     }
     use({ "kyazdani42/nvim-web-devicons" })
-    use({ "rktjmp/lush.nvim" })
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
     use({ "nvim-treesitter/playground" })
     use({ "nvim-treesitter/nvim-treesitter-textobjects" })
@@ -61,15 +77,15 @@ return packer.startup({ function(use)
     use({ "hrsh7th/cmp-cmdline" })
     use({ "hrsh7th/nvim-cmp" })
     use({ "saadparwaiz1/cmp_luasnip" })
+    use "lukas-reineke/cmp-rg"
+
     use({ "Yggdroot/hiPairs" })
     use({ "tpope/vim-repeat" })
-    use({ "tpope/vim-vinegar" })
-    use({ "tpope/vim-fugitive" })
+    use({ "tpope/vim-fugitive", cmd = { "Git" } })
     use({ "vimlab/split-term.vim" })
     use({ "akinsho/toggleterm.nvim" })
     use({ "folke/lsp-colors.nvim" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
-    use({ "glepnir/lspsaga.nvim" })
     use({ "rmagatti/goto-preview" })
     -- Lua
     use "stsewd/tree-sitter-comment"
@@ -83,8 +99,9 @@ return packer.startup({ function(use)
     use({ "haringsrob/nvim_context_vt" })
     use({ 'jghauser/mkdir.nvim' })
     use "direnv/direnv.vim"
-    use 'zane-/cder.nvim'
-    use({ 'pwntester/octo.nvim' })
+    use({ 'pwntester/octo.nvim', config = function()
+        require("config.git")
+    end })
     use {
         "amrbashir/nvim-docs-view",
         opt = true,
@@ -128,7 +145,7 @@ return packer.startup({ function(use)
             vim.g.doom_one_plugin_whichkey = true
             vim.g.doom_one_plugin_indent_blankline = true
             vim.g.doom_one_plugin_vim_illuminate = true
-            vim.g.doom_one_plugin_lspsaga = true
+            vim.g.doom_one_plugin_lspsaga = false
         end,
         -- config = function()
         --     vim.cmd [[colorscheme doom-one]]
@@ -155,8 +172,7 @@ return packer.startup({ function(use)
     use "antoinemadec/FixCursorHold.nvim"
     use "unblevable/quick-scope"
     use 'radenling/vim-dispatch-neovim'
-    use "Olical/conjure"
-    use "Olical/aniseed"
+    -- use "Olical/conjure"
     use {
         "X3eRo0/dired.nvim",
         requires = "MunifTanjim/nui.nvim",
@@ -169,9 +185,7 @@ return packer.startup({ function(use)
         end
     }
     use "gpanders/nvim-parinfer"
-    use "PaterJason/cmp-conjure"
-    use("guns/vim-sexp")
-    use("tpope/vim-sexp-mappings-for-regular-people")
+    -- use "PaterJason/cmp-conjure"
     use("andymass/vim-matchup")
     use {
         -- Optional but recommended
@@ -210,20 +224,6 @@ return packer.startup({ function(use)
     }
     use 'tjdevries/complextras.nvim'
     use 'onsails/lspkind.nvim'
-    use {
-        'chipsenkbeil/distant.nvim',
-        config = function()
-            require('distant').setup {
-                -- Applies Chip's personal settings to every machine you connect to
-                --
-                -- 1. Ensures that distant servers terminate with no connections
-                -- 2. Provides navigation bindings for remote directories
-                -- 3. Provides keybinding to jump into a remote file's parent directory
-                ['*'] = require('distant.settings').chip_default()
-            }
-        end
-    }
-
     use { 'j-hui/fidget.nvim',
         config = function()
             require "fidget".setup()
@@ -238,39 +238,45 @@ return packer.startup({ function(use)
     use({ "pocco81/truezen.nvim" })
     use({ "nvim-neorg/neorg" })
     use({ "nvim-neorg/neorg-telescope" })
-    use("khzaw/vim-conceal")
-    use({ "mcchrish/zenbones.nvim" })
+    -- here is hunk
+    -- hunk 2
+    -- hunk 3
     use({ "tiagovla/scope.nvim",
+        -- hunk
         config = function()
             require("scope").setup()
         end
     })
     -- using packer.nvim
-    use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons',
-        config = function()
-            require('bufferline').setup {
-                options = {
-                    indicator_icon = '▎',
-                    buffer_close_icon = '',
-                    modified_icon = '●',
-                    close_icon = '',
-                    left_trunc_marker = '',
-                    right_trunc_marker = '',
-                    max_name_length = 18,
-                    max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-                    tab_size = 18,
-                    diagnostics = "nvim_lsp",
-                    diagnostics_update_in_insert = false,
-                    -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
-                    diagnostics_indicator = function(count, _, _, _)
-                        return "(" .. count .. ")"
-                    end,
-                    -- NOTE: this will be called a lot so don't do any heavy processing here
-                    color_icons = true, -- whether or not to add the filetype icon highlights
-                    separator_style = "thin" --[[ | "thick" | "slant" | { 'any', 'any' } ]] ,
-                }
-            }
-        end }
+    -- use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons',
+    --     config = function()
+    --         require('bufferline').setup {
+    --             options = {
+    --                 indicator = {
+    --                     icon = '▎',
+    --                     style = "icon"
+    --                 },
+    --                 -- indicator_icon = '▎',
+    --                 buffer_close_icon = '',
+    --                 modified_icon = '●',
+    --                 close_icon = '',
+    --                 left_trunc_marker = '',
+    --                 right_trunc_marker = '',
+    --                 max_name_length = 18,
+    --                 max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
+    --                 tab_size = 18,
+    --                 diagnostics = "nvim_lsp",
+    --                 diagnostics_update_in_insert = false,
+    --                 -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
+    --                 diagnostics_indicator = function(count, _, _, _)
+    --                     return "(" .. count .. ")"
+    --                 end,
+    --                 -- NOTE: this will be called a lot so don't do any heavy processing here
+    --                 color_icons = true, -- whether or not to add the filetype icon highlights
+    --                 separator_style = "thin" --[[ | "thick" | "slant" | { 'any', 'any' } ]] ,
+    --             }
+    --         }
+    --     end }
     use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
         config = function()
             require('neogit').setup {
@@ -291,8 +297,7 @@ return packer.startup({ function(use)
         config = function()
             require("nvim-surround").setup({
                 keymaps = {
-                    insert = "<C-h>s",
-                    insert_line = "<C-h>S",
+                    insert_line = "<C-s>",
                     normal = "ys",
                     normal_cur = "yss",
                     normal_line = "yS",
@@ -316,50 +321,205 @@ return packer.startup({ function(use)
     }
 
     use({
-        "ggandor/leap.nvim",
+        "ggandor/lightspeed.nvim",
         config = function()
-            local leap = require('leap')
-            vim.cmd([[autocmd ColorScheme * lua require('leap').init_highlight(true)]])
-            leap.setup {
-                max_aot_targets = nil,
-                highlight_unlabeled = false,
-                case_sensitive = false,
-                -- Groups of characters that should match each other.
-                -- Obvious candidates are braces & quotes ('([{', ')]}', '`"\'').
-                character_classes = {
-                    ' \t\r\n',
-                    ')]}>',
-                    '([{<',
-                    { '"', "'", '`' },
-                },
+            require("lightspeed").setup({
+                ignore_case = false,
+                exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+
+                --- s/x ---
+                jump_to_unique_chars = { safety_timeout = 400 },
+                match_only_the_start_of_same_char_seqs = true,
+                force_beacons_into_match_width = true,
+                -- Display characters in a custom way in the highlighted matches.
+                substitute_chars = { ["\r"] = "¬" },
                 -- Leaving the appropriate list empty effectively disables "smart" mode,
                 -- and forces auto-jump to be on or off.
-                -- safe_labels = { . . . },
-                -- labels = { . . . },
                 -- These keys are captured directly by the plugin at runtime.
-                -- (For `prev_match`, I suggest <s-enter> if possible in the terminal/GUI.)
                 special_keys = {
-                    repeat_search = '<enter>',
-                    next_match    = '<space>',
-                    prev_match    = '<C-space>',
-                    next_group    = '<tab>',
-                    prev_group    = '<S-tab>',
+                    next_match_group = "<TAB>",
+                    prev_match_group = "<S-Tab>",
                 },
+                --- f/t ---
+                limit_ft_matches = 20,
+                repeat_ft_with_target_char = true,
+            })
+            local default_keymaps = {
+                { "n", "gs", "<Plug>Lightspeed_omni_s" },
+                { "n", "<c-s>", "<Plug>Lightspeed_omni_gs" },
+                { "x", "gs", "<Plug>Lightspeed_omni_s" },
+                { "x", "<c-s>", "<Plug>Lightspeed_omni_gs" },
+                { "o", "gs", "<Plug>Lightspeed_omni_s" },
+                { "o", "<c-s>", "<Plug>Lightspeed_omni_gs" },
             }
-            leap.set_default_keymaps()
+            for _, m in ipairs(default_keymaps) do
+                vim.keymap.set(m[1], m[2], m[3], { noremap = true, silent = true })
+            end
+            vim.cmd [[
+                let g:lightspeed_last_motion = ''
+                augroup lightspeed_last_motion
+                autocmd!
+                    autocmd User LightspeedSxEnter let g:lightspeed_last_motion = 'sx'
+                    autocmd User LightspeedFtEnter let g:lightspeed_last_motion = 'ft'
+                augroup end
+                map <expr> ; g:lightspeed_last_motion == 'sx' ? "<Plug>Lightspeed_;_sx" : "<Plug>Lightspeed_;_ft"
+                map <expr> ,, g:lightspeed_last_motion == 'sx' ? "<Plug>Lightspeed_,_sx" : "<Plug>Lightspeed_,_ft"
+
+            ]]
         end
     })
     --- packer
     use "natecraddock/telescope-zf-native.nvim"
     use "haya14busa/vim-asterisk"
     use "tversteeg/registers.nvim"
+    use "ThePrimeagen/harpoon"
+    use {
+        'rlch/github-notifications.nvim',
+        config = function()
+            require "github-notifications"
+        end,
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+        },
+    }
+    -- use {
+    --     "jpalardy/vim-slime",
+    --     config = function()
+    --         vim.g.slime_target = "tmux"
+    --     end
+    -- }
+    use "simrat39/rust-tools.nvim"
+    use "tpope/vim-abolish"
+    use("bfredl/nvim-luadev")
+    if host_is_not("djosephs") then
+        use({
+            "NTBBloodbath/daylight.nvim",
+            config = function()
+                require("daylight").setup({
+                    day = {
+                        name = vim.g.colors_name,
+                        time = 8, -- 8 am
+                    },
+                    night = {
+                        name = vim.g.colors_name,
+                        time = 20, -- 7 pm, changes to dark theme on 07:01
+                    },
+                    interval = 60000, -- Time in milliseconds, 1 minute
+                })
+            end,
+        })
+    end
+    use { "rafcamlet/tabline-framework.nvim", requires = "kyazdani42/nvim-web-devicons" } -- BROKEN: dev comments
+    use "sindrets/diffview.nvim"
+    use "rebelot/heirline.nvim"
+    use { 'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup {
+                signs                        = {
+                    add          = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+                    change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr',
+                        linehl = 'GitSignsChangeLn' },
+                    delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr',
+                        linehl = 'GitSignsDeleteLn' },
+                    topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr',
+                        linehl = 'GitSignsDeleteLn' },
+                    changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr',
+                        linehl = 'GitSignsChangeLn' },
+                },
+                signcolumn                   = false, -- Toggle with `:Gitsigns toggle_signs`
+                numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
+                linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+                word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+                watch_gitdir                 = {
+                    interval = 1000,
+                    follow_files = true
+                },
+                attach_to_untracked          = true,
+                current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+                current_line_blame_opts      = {
+                    virt_text = true,
+                    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+                    delay = 1000,
+                    ignore_whitespace = false,
+                },
+                current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+                sign_priority                = 6,
+                update_debounce              = 100,
+                status_formatter             = nil, -- Use default
+                max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+                preview_config               = {
+                    -- Options passed to nvim_open_win
+                    border = 'single',
+                    style = 'minimal',
+                    relative = 'cursor',
+                    row = 0,
+                    col = 1
+                },
+                yadm                         = {
+                    enable = false
+                },
+            }
+        end
+    }
+    use {
+        'tamton-aquib/duck.nvim',
+        config = function()
+            vim.api.nvim_set_keymap('n', '<leader>dd', ':lua require("duck").hatch()<CR>', { noremap = true })
+            vim.api.nvim_set_keymap('n', '<leader>dk', ':lua require("duck").cook()<CR>', { noremap = true })
+        end
+    }
+    use {
+        "jbyuki/venn.nvim",
+        config = function()
+            -- venn.nvim: enable or disable keymappings
+            function _G.Toggle_venn()
+                local venn_enabled = vim.inspect(vim.b.venn_enabled)
+                if venn_enabled == "nil" then
+                    vim.b.venn_enabled = true
+                    vim.cmd [[setlocal ve=all]]
+                    -- draw a line on HJKL keystokes
+                    vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
+                    vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
+                    vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
+                    vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
+                    -- draw a box by pressing "f" with visual selection
+                    vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<CR>", { noremap = true })
+                else
+                    vim.cmd [[setlocal ve=]]
+                    vim.cmd [[mapclear <buffer>]]
+                    vim.b.venn_enabled = nil
+                end
+            end
 
+            -- toggle keymappings for venn using <leader>v
+            vim.api.nvim_set_keymap('n', '<leader>v', ":lua Toggle_venn()<CR>", { noremap = true })
+        end
+    }
+    use { "dstein64/vim-startuptime" }
+    use({
+        "aserowy/tmux.nvim",
+        config = function() require("tmux").setup({
+                copy_sync = { enable = false },
+                navigation = {
+                    -- cycles to opposite pane while navigating into the border
+                    cycle_navigation = true,
 
+                    -- enables default keybindings (C-hjkl) for normal mode
+                    enable_default_keybindings = false,
+
+                    -- prevents unzoom tmux when navigating beyond vim border
+                    persist_zoom = false,
+                },
+            }
+            )
+        end
+    })
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
         require("packer").sync()
     end
 end,
-config = { max_jobs = 25 } }
+    config = { max_jobs = 25 } }
 )

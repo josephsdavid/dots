@@ -1,13 +1,57 @@
 M = {}
 local nvim_lsp = require("lspconfig")
-local saga = require 'lspsaga'
-local action = saga.codeaction
+require("goto-preview").setup({})
+-- local km = require("core.keymap")
 local km = require("core.keymap")
+
+
+local function rename()
+    local curr_name = vim.fn.expand("<cword>")
+    local value = vim.fn.input("Old name: " .. curr_name .. ", new name: ")
+    local lsp_params = vim.lsp.util.make_position_params()
+
+    if not value or #value == 0 or curr_name == value then return end
+
+    -- request lsp rename
+    lsp_params.newName = value
+    vim.lsp.buf_request(0, "textDocument/rename", lsp_params, function(_, res, ctx, _)
+        if not res then return end
+
+        -- apply renames
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        vim.lsp.util.apply_workspace_edit(res, client.offset_encoding)
+
+        -- print renames
+        local changed_files_count = 0
+        local changed_instances_count = 0
+
+        if (res.documentChanges) then
+            for _, changed_file in pairs(res.documentChanges) do
+                changed_files_count = changed_files_count + 1
+                changed_instances_count = changed_instances_count + #changed_file.edits
+            end
+        elseif (res.changes) then
+            for _, changed_file in pairs(res.changes) do
+                changed_instances_count = changed_instances_count + #changed_file
+                changed_files_count = changed_files_count + 1
+            end
+        end
+
+        -- compose the right print message
+        print(string.format("renamed %s instance%s in %s file%s. %s",
+            changed_instances_count,
+            changed_instances_count == 1 and '' or 's',
+            changed_files_count,
+            changed_files_count == 1 and '' or 's',
+            changed_files_count > 1 and "To save them run ':wa'" or ''
+        ))
+    end)
+end
 
 M.setup = function()
 
     local signs = {
-        { name = "DiagnosticSignError", text = "" },
+        { name = "DiagnosticSignError", text = "😱" },
         { name = "DiagnosticSignWarn", text = "" },
         { name = "DiagnosticSignHint", text = "" },
         { name = "DiagnosticSignInfo", text = "" },
@@ -16,8 +60,13 @@ M.setup = function()
     for _, sign in ipairs(signs) do
         vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
     end
-
+    local severity = vim.diagnostic.severity
     local config = {
+        underline = {
+            severity = {
+                min = severity.INFO,
+            },
+        },
         virtual_text = false,
         {
             prefix = "»",
@@ -27,8 +76,8 @@ M.setup = function()
         signs = {
             active = signs,
         },
-        update_in_insert = true,
-        underline = false,
+        update_in_insert = false,
+
         severity_sort = true,
         float = {
             focusable = false,
@@ -49,59 +98,9 @@ M.setup = function()
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = "rounded",
     })
-    vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
-    require("goto-preview").setup({})
-    -- set up lspsaga
-    saga.init_lsp_saga({
-        border_style = "rounded",
-        saga_winblend = 10,
-        move_in_saga = { prev = km.Ctrl(","), next = km.Ctrl(".") },
-        diagnostic_header = { " ", " ", " ", "ﴞ " },
-        show_diagnostic_source = true,
-        max_preview_lines = 10,
-        code_action_icon = "ﯦ",
-        code_action_num_shortcut = true,
-        code_action_lightbulb = {
-            enable = false,
-            sign = true,
-            sign_priority = 20,
-            virtual_text = false,
-        },
-        finder_icons = {
-            def = '  ',
-            ref = '諭 ',
-            link = '  ',
-        },
-        finder_action_keys = {
-            open = { "o", "<cr>" },
-            vsplit = "s",
-            split = "i",
-            tabe = "t",
-            quit = "q",
-            scroll_down = "<C-f>",
-            scroll_up = "<C-b>",
-        },
-        code_action_keys = {
-            quit = "q",
-            exec = "<CR>",
-        },
-        rename_action_quit = "<C-c>",
-        definition_preview_icon = "  ",
-        show_outline = {
-            win_position = 'right',
-            -- set the special filetype in there which in left like nvimtree neotree defx
-            left_with = '',
-            win_width = 30,
-            auto_enter = true,
-            auto_preview = true,
-            virt_text = '┃',
-            jump_key = 'o',
-            -- auto refresh when change buffer
-            auto_refresh = true,
-        },
-    })
+    vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format{async=true}' ]])
 
-    Bindings.config.lsp = { normal = {}, visual = {} }
+    Bindings.config.lsp = { normal = {}, visual = {}, insert = {} }
     local g = km.genleader("g")
 
     local function _bind(key, mode)
@@ -112,31 +111,28 @@ M.setup = function()
     end
 
     local lspbind = _bind("lsp", "normal")
-    local lspvbind = _bind("lsp", "visual")
+    -- local lspvbind = _bind("lsp", "visual")
+    -- local lspibind = _bind("lsp", "insert")
 
     local ntable = {
-        [g("f")] = { ":Lspsaga lsp_finder<CR>", "finder" },
         [g("r")] = { ":Telescope lsp_references<CR>", "goto references" },
-        [g("D")] = { "<cmd>lua require('goto-preview').goto_preview_definition()<cr>", "goto definition, popup" },
-        [g("d")] = { "<cmd>Telescope lsp_definitions<CR>", "goto definition" },
-        [g("a")] = { ":Lspsaga code_action<CR>", "code_action" },
-        [g("s")] = { ":Lspsaga signature_help<CR>", "signature" },
-        [g("l")] = { ":Lspsaga show_line_diagnostics<CR>", "diagnostics" },
-        ["K"] = { ":Lspsaga hover_doc<CR>", "docs" },
-        [km.Ctrl("f")] = { function() action.smart_scroll_with_saga(1) end, "docs scroll up" },
-        [km.Ctrl("b")] = { function() action.smart_scroll_with_saga(-1) end, "docs scroll down" },
-        [km.leader("rn")] = { ":Lspsaga rename<CR>", "rename" },
-        ["]d"] = { ":Lspsaga diagnostic_jump_next<CR>", "next diagnostic" },
-        ["[d"] = { ":Lspsaga diagnostic_jump_prev<CR>", "prev diagnostic" },
-        [g("o")] = { ":LSOutlineToggle<CR>", "Outline" },
-        [g("p")] = { ":Lspsaga preview_definition<CR>", "Saga preview definition" },
+        [g("d")] = { "<cmd>lua vim.lsp.buf.definition()<CR>zz", "goto definition" },
+        [g("D")] = { km.luacmd("require('goto-preview').goto_preview_definition()"), "goto definition, popup" },
+        [g("q")] = { km.luacmd("require('goto-preview').close_all_win()"), "close popups" },
+        [g("l")] = { km.luacmd("vim.diagnostic.open_float()"), "diagnostics" },
+        ["K"] = { km.luacmd("vim.lsp.buf.hover()"), "docs" },
+        [km.leader("rn")] = { rename, "rename" },
+        ["]d"] = { km.luacmd("vim.diagnostic.goto_next({border='rounded'})"), "next diagnostic" },
+        ["[d"] = { km.luacmd("vim.diagnostic.goto_prev({border='rounded'})"), "next diagnostic" },
     }
 
-    lspvbind(g("a"), { ":<C-U>Lspsaga code_action", "code_action" })
 
     for k, v in pairs(ntable) do
         lspbind(k, v)
     end
+
+    -- lspibind(km.ctrl("h"), { km.luacmd("vim.lsp.buf.signature_help()"), "docs" })
+
 
     local on_attach = function(client, bufnr)
 
@@ -185,13 +181,13 @@ M.setup = function()
     local servers = {
         julials = {
 
-            cmd = { "juliacli", "server" },
+            cmd = { "juliacli", "server", "--download" },
             settings = {
                 julia = {
                     usePlotPane = false,
-                    symbolCacheDownload = false,
+                    symbolCacheDownload = true,
                     runtimeCompletions = true,
-                    singleFileSupport = false,
+                    singleFileSupport = true,
                     useRevise = true,
                     lint = {
                         NumThreads = 11,
@@ -216,6 +212,19 @@ M.setup = function()
                 },
             },
         },
+        rust_analyzer = {
+            cmd = {
+                "rust-analyzer"
+            },
+            settings = {
+                ["rust-analyzer"] = {
+                    checkOnSave = {
+                        command = "clippy"
+                    },
+                }
+            }
+        },
+        pyright = {}
     }
 
     for lsp, setup in pairs(servers) do
@@ -223,6 +232,7 @@ M.setup = function()
         setup.capabilities = make_capabilities()
         nvim_lsp[lsp].setup(setup)
     end
+
 
 end
 return M

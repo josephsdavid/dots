@@ -22,7 +22,6 @@ require("neorg").setup({
         },
         ["core.integrations.telescope"] = {}, -- Enable the telescope module
         ["core.looking-glass"] = {}, -- Enable the looking_glass module
-        ["core.integrations.truezen"] = {}, -- Enable the truezen module
         ["core.export"] = {}, -- Enable the truezen module
         ["core.export.markdown"] = {}, -- Enable the truezen module
         ["core.norg.journal"] = { config = { workspace = "notes", strategy = "nested" } }, -- Enable the notes
@@ -39,9 +38,9 @@ require("neorg").setup({
                 neorg_leader = km.localleader("o"), -- This is the default if unspecified
                 hook = function(keybinds)
                     keybinds.map_event("norg", "n", km.leader("fl"), "core.integrations.telescope.find_linkable")
-                    keybinds.map_event("norg", "i", km.Ctrl("l"), "core.integrations.telescope.insert_link")
+                    keybinds.map_event("norg", "i", km.ctrl("l"), "core.integrations.telescope.insert_link")
                     keybinds.map_event("norg", "n", km.localleader("m"), "core.looking-glass.magnify-code-block")
-                    keybinds.map_event("norg", "i", km.Ctrl("b"), "core.looking-glass.magnify-code-block")
+                    -- keybinds.map_event("norg", "i", km.ctrl("m"), "core.looking-glass.magnify-code-block")
                 end,
             },
         },

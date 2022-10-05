@@ -25,7 +25,7 @@ for f in herbst_exports
         delim = " "
     end
     f_str = string(f)
-    @eval begin
+    @eval begin # bad macro
         const $(f) = delim_str($(f_str), $(delim))
     end
 end
