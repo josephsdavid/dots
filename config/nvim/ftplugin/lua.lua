@@ -1,8 +1,4 @@
 local km = require "core.keymap"
-local g = require"config.terminal".genterm
-local opt = require"core.options"
-
-
 
 vim.keymap.set( "n",km.localleader("f"), km.cmd("Format"),
     {desc =  "format",  noremap = true, silent = false })

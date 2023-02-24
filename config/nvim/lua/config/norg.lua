@@ -1,23 +1,23 @@
-local km = require("core.keymap")
-require("neorg").setup({
+local norg_setup = {
     -- Tell Neorg what modules to load
     load = {
         ["core.defaults"] = {}, -- Load all the default modules
-        ["core.gtd.base"] = {
-            config = {
-                -- workspace =   "example_gtd" , -- assign the workspace,
-                workspace = "home",
-                exclude = { "notes/" }, -- Optional: all excluded files from the workspace are not part of the gtd workflow
-                projects = {
-                    show_completed_projects = false,
-                    show_projects_without_tasks = false,
-                },
-                custom_tag_completion = true,
-            },
-        },
+        -- ["core.gtd.base"] = {
+        --     config = {
+        --         -- workspace =   "example_gtd" , -- assign the workspace,
+        --         workspace = "home",
+        --         exclude = { "notes/" }, -- Optional: all excluded files from the workspace are not part of the gtd workflow
+        --         projects = {
+        --             show_completed_projects = false,
+        --             show_projects_without_tasks = false,
+        --         },
+        --         custom_tag_completion = true,
+        --     },
+        -- },
         ["core.presenter"] = {
             config = {
                 zen_mode = "truezen",
+                -- depth = "1"
             },
         },
         ["core.integrations.telescope"] = {}, -- Enable the telescope module
@@ -28,8 +28,11 @@ require("neorg").setup({
         ["core.norg.completion"] = { config = { engine = "nvim-cmp" } }, -- We current support nvim-compe and nvim-cmp only
         ["core.norg.concealer"] = {
             config = {
+                -- markup_preset = "dimmed",
+                -- markup_preset = "conceal",
                 icon_preset = "diamond",
             }, -- Allows for use of icons
+            -- dim_code_blocks = {enabled=false}
         },
         ["core.norg.qol.toc"] = {},
         ["core.keybinds"] = { -- Configure core.keybinds
@@ -55,8 +58,35 @@ require("neorg").setup({
                 },
                 index = "index.norg",
                 --[[ autodetect = true,
-          autochdir = false, ]]
+        autochdir = false, ]]
             },
         },
     },
-})
+}
+
+vim.cmd [[
+hi link @neorg.markup.bold TSStrong
+hi link @neorg.markup.italic markdownItalic
+set conceallevel=3
+]]
+
+return {
+    "nvim-neorg/neorg", ft = "norg", config = function()
+        require("neorg").setup(norg_setup)
+    end,
+    dependencies = {
+        "nvim-neorg/neorg-telescope",
+        {
+            'lukas-reineke/headlines.nvim',
+            ft = { "markdown", "norg" },
+            config = function()
+                require("headlines").setup({
+                    norg = {
+                        headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4", "Headline5", "Headline6" },
+                        codeblock_highlight = { "NeorgCodeBlock" },
+                    }
+                })
+            end
+        }
+    }
+}

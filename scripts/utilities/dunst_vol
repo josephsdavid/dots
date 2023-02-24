@@ -21,7 +21,7 @@ function send_notification {
     # https://en.wikipedia.org/wiki/Box-drawing_character
     bar=$(seq -s "━" $(($volume / 6)) | sed 's/[0-9]//g')
     # Send the notification
-    dunstify -i "~/bin/notes" -r 2593 -u low " 🔊 $volume%	$bar" -a volume
+    dunstify  -r 2593 -u low " 🔊 $volume%	$bar" -a volume
 }
 
 case $1 in
@@ -30,12 +30,12 @@ case $1 in
 	amixer  set Master on > /dev/null
 	# Up the volume (+ 5%)
 	amixer  sset Master 2%+ > /dev/null
-	send_notification
+	# send_notification
 	;;
     down)
 	amixer  set Master on > /dev/null
 	amixer  sset Master 2%- > /dev/null
-	send_notification
+	# send_notification
 	;;
     mute)
     	# Toggle mute

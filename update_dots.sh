@@ -18,7 +18,8 @@ cp -r $cfig/nixpkgs/* config/nixpkgs
 cp -r $cfig/herbstluftwm/* config/herbstluftwm
 cp -r $cfig/nvim/* config/nvim
 cp -r $cfig/rofi/* config/rofi
-cp -r $cfig/termite/* config/termite
+cp -r $cfig/alacritty/* config/alacritty
+cp -r ~/.wezterm.lua ./.wezterm.lua
 cp -r $cfig/mimeapps.list config/mimeapps.list
 cp "$HOME/.local/share/applications/mynvim.desktop" mynvim.desktop
 

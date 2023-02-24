@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# run `pacmd list-sinks  | grep '\(name:\|alias\)'` and fill with value from alias of your bluetooth device
+BLUETOOTH_DEVICE="AirPods Pro"
+PROFILE_A2DP="a2dp_sink"
+PROFILE_HEADSET_UNIT="headset_head_unit"
+
+####  Restart Bluetooth
+if [ "${1}" == "reset" ] ; then
+  sudo rfkill block bluetooth && sleep 0.1 && sudo rfkill unblock bluetooth;
+  exit;
+fi;
+
+sink_name() {
+    pactl list sinks | grep alias | grep -B1 "AirPods Pro" | head -1 | awk -F "=" '{print $NF}' | xargs
+}
+
+card_name() {
+    pactl list cards | grep 'Name:' | grep "bluez" | awk -F ":" '{print $NF}' | xargs
+}
+
+#### Toggle listen/speak
+if [ "${1}" == "" -o "${1}" == "toggle" ] ; then
+  SINK_NAME=$(sink_name "${BLUETOOTH_DEVICE}")
+ 
+  if [ "${SINK_NAME}" == "" ] ; then echo "${BLUETOOTH_DEVICE} headset not found."; ${0} reset; sleep 2; exit; fi
+
+  if $(echo "${SINK_NAME}" | grep "${PROFILE_A2DP}" &> /dev/null) ; then
+    echo "Detected quality sound output, that means we can't speak; switch that."
+    ${0} speak;
+  else
+    echo "Quality sound not found, switch to the good sound."
+    ${0} listen;
+  fi
+fi
+
+#### Change the output to F5A
+if [ "${1}" == "listen" ] ; then
+  SINK_NAME=$(sink_name "${BLUETOOTH_DEVICE}")
+  if [ "${SINK_NAME}" == "" ] ; then echo "${BLUETOOTH_DEVICE} headset not found."; ${0} reset; sleep 2; exit; fi
+  
+  ## Switch the output to that.
+  echo "Switching audio output to ${SINK_NAME}";
+  pactl set-default-sink "${SINK_NAME}"
+
+  #### Change profile to quality output + no mic.:
+  CARD=$(card_name)
+  echo "Switching audio profile to ${PROFILE_A2DP}";
+  pactl set-card-profile "${CARD}" "${PROFILE_A2DP}"
+  exit;
+fi;
+
+#### Input
+if [ "${1}" == "speak" ] ; then
+  ## Change profile to crappy output + mic.:
+  CARD=$(card_name)
+  pactl set-card-profile "${CARD}" "${PROFILE_HEADSET_UNIT}"
+
+  SOURCE_NAME=$(sink_name "${BLUETOOTH_DEVICE}")
+  if [ "${SOURCE_NAME}" == "" ] ; then echo "${BLUETOOTH_DEVICE} mic not found."; ${0} reset; sleep 2; exit; fi
+  echo "Switching audio input to ${SOURCE_NAME}";
+  pactl set-default-source "${SOURCE_NAME}.monitor" || echo 'Try `pactl list-sources`.';
+fi;
+
+
+####  Resources:
+
+##  Why this is needed
+# https://jimshaver.net/2015/03/31/going-a2dp-only-on-linux/
+
+##  My original question
+# https://askubuntu.com/questions/1004712/audio-profile-changes-automatically-to-hsp-bad-quality-when-i-change-input-to/1009156#1009156
+
+##  Script to monitor plugged earphones and switch when unplugged (Ubuntu does that, but nice script):
+# https://github.com/freundTech/linux-helper-scripts/blob/master/padevswitch/padevswitch

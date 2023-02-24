@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+flags=--ozone-platform-hint=auto'
+$1 $flags $2
